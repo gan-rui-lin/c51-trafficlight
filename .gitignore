@@ -1,0 +1,6 @@
+trafficLight/
+# *.uvproj
+.vscode/
+*.obj
+*.o
+*.lst
