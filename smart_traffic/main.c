@@ -1,6 +1,6 @@
 /**************************************************
  * 文件名:    main.c
- * 作者:      GitHub Copilot
+ * 作者:      
  * 日期:      2025-10-03
  * 描述:      智能交通灯系统主程序 - 利用已实现模块
  *           调用各模块已实现的功能，简化主控制逻辑
@@ -55,51 +55,51 @@ void Main_Loop(void)
             // 调用交通灯模块的定时处理函数
             TrafficLight_TimerHandler();
             
-            // 获取当前状态和时间进行显示
-            nsTime = TrafficLight_GetTimeLeft(DIRECTION_NS);
-            ewTime = TrafficLight_GetTimeLeft(DIRECTION_EW);
+            // // 获取当前状态和时间进行显示
+            // nsTime = TrafficLight_GetTimeLeft(DIRECTION_NS);
+            // ewTime = TrafficLight_GetTimeLeft(DIRECTION_EW);
             
-            // 如需启用显示，取消下面的注释
-            Display_ShowTime(nsTime, ewTime);
+            // // 如需启用显示，取消下面的注释
+            // Display_ShowTime(nsTime, ewTime);
         }
         
-        // 100ms定时处理 - 闪烁和蜂鸣器
-        if (Timer_GetFlag100ms()) {
-            // 调用交通灯闪烁处理（需要取消注释）
-            TrafficLight_BlinkHandler();
+        // // 100ms定时处理 - 闪烁和蜂鸣器
+        // if (Timer_GetFlag100ms()) {
+        //     // 调用交通灯闪烁处理（需要取消注释）
+        //     TrafficLight_BlinkHandler();
             
-            // 获取剩余时间进行蜂鸣器提示
-            nsTime = TrafficLight_GetTimeLeft(DIRECTION_NS);
-            ewTime = TrafficLight_GetTimeLeft(DIRECTION_EW);
+        //     // 获取剩余时间进行蜂鸣器提示
+        //     nsTime = TrafficLight_GetTimeLeft(DIRECTION_NS);
+        //     ewTime = TrafficLight_GetTimeLeft(DIRECTION_EW);
             
-            // 最后3秒蜂鸣器提示（需要取消注释）
-            if ((nsTime <= 3 && nsTime > 0) || (ewTime <= 3 && ewTime > 0)) {
-                Buzzer_Beep();
-            }
-        }
+        //     // 最后3秒蜂鸣器提示（需要取消注释）
+        //     if ((nsTime <= 3 && nsTime > 0) || (ewTime <= 3 && ewTime > 0)) {
+        //         Buzzer_Beep();
+        //     }
+        // }
         
-        // 10ms定时处理 - 按键扫描
-        if (Timer_GetFlag10ms()) {
-            // 调用按键扫描处理（需要取消注释）
-            Key_Scan();
+        // // 10ms定时处理 - 按键扫描
+        // if (Timer_GetFlag10ms()) {
+        //     // 调用按键扫描处理（需要取消注释）
+        //     Key_Scan();
             
-            // 简化版本：直接处理紧急按键
-            if (!KEY_EMERGENCY) {
-                Delay_ms(20);  // 防抖
-                if (!KEY_EMERGENCY) {
-                    // 调用紧急延时功能
-                    TrafficLight_EmergencyExtend();
+        //     // 简化版本：直接处理紧急按键
+        //     if (!KEY_EMERGENCY) {
+        //         Delay_ms(20);  // 防抖
+        //         if (!KEY_EMERGENCY) {
+        //             // 调用紧急延时功能
+        //             TrafficLight_EmergencyExtend();
                     
-                    // 等待按键释放
-                    while (!KEY_EMERGENCY) {
-                        Delay_ms(10);
-                    }
-                }
-            }
-        }
+        //             // 等待按键释放
+        //             while (!KEY_EMERGENCY) {
+        //                 Delay_ms(10);
+        //             }
+        //         }
+        //     }
+        // }
         
-        // 短暂延时，避免CPU占用过高
-        Delay_ms(5);
+        // // 短暂延时，避免CPU占用过高
+        // Delay_ms(5);
     }
 }
 
@@ -110,6 +110,7 @@ void main(void)
 {
     // 系统初始化
     System_Init();
+
     
     // 进入主循环
     Main_Loop();

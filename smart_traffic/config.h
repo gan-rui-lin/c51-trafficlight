@@ -75,9 +75,9 @@ sbit EXT_POWER_PIN = P1 ^ 3; // 扩展模块电源控制
 
 /*-----------------------交通灯时间配置-----------------------*/
 // 默认时间配置（单位：秒）
-#define DEFAULT_GREEN_TIME 30 // 默认绿灯时间
+#define DEFAULT_GREEN_TIME 3 // 默认绿灯时间
 #define DEFAULT_YELLOW_TIME 3 // 默认黄灯时间
-#define DEFAULT_RED_TIME 33   // 默认红灯时间（绿灯+黄灯）
+#define DEFAULT_RED_TIME 3   // 默认红灯时间（绿灯+黄灯）
 
 // 时间限制配置
 #define MIN_LIGHT_TIME 5        // 最小灯时间
