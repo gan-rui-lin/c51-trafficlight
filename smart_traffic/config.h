@@ -1,31 +1,53 @@
 /**************************************************
  * 文件名:    config.h
- * 作者:
- * 日期:      2025-10-02
- * 描述:      智能交通灯系统配置文件
- *           使用宏定义管理所有端口和参数配置，提高可扩展性
+ * 作者:      GitHub Copilot
+ * 日期:      2025-10-07
+ * 描述:      智能交通灯系统配置文件 - 精简版
+ *           只包含核心功能的配置，基于可工作的单文件版本
  **************************************************/
 
 #ifndef __CONFIG_H__
 #define __CONFIG_H__
-
 #include <reg52.h>
-
 /*=======================硬件配置宏定义=======================*/
 
 // 单片机型号说明：80C51兼容芯片
 // 主要指标：工作电压5V，晶振频率12MHz
 
-/*-----------------------交通灯硬件配置-----------------------*/
-// 南北方向交通灯端口定义
-sbit NS_RED_PIN = P2 ^ 0;    // 南北红灯
-sbit NS_YELLOW_PIN = P2 ^ 1; // 南北黄灯
-sbit NS_GREEN_PIN = P2 ^ 2;  // 南北绿灯
+/*==============================================
+ *                引脚定义
+ *==============================================*/
+// 调试LED引脚定义  
+sbit DEBUG_1S_PIN    = P3^6;  // 1秒指示灯（心跳）
+sbit DEBUG_STATE_PIN = P3^7;  // 状态指示灯
 
-// 东西方向交通灯端口定义
-sbit EW_RED_PIN = P2 ^ 3;    // 东西红灯
-sbit EW_YELLOW_PIN = P2 ^ 4; // 东西黄灯
-sbit EW_GREEN_PIN = P2 ^ 5;  // 东西绿灯
+// 南北方向交通灯引脚定义
+sbit NS_RED_PIN      = P2^0;  // 南北红灯
+sbit NS_YELLOW_PIN   = P2^1;  // 南北黄灯  
+sbit NS_GREEN_PIN    = P2^2;  // 南北绿灯
+
+// 东西方向交通灯引脚定义
+sbit EW_RED_PIN      = P2^3;  // 东西红灯
+sbit EW_YELLOW_PIN   = P2^4;  // 东西黄灯
+sbit EW_GREEN_PIN    = P2^5;  // 东西绿灯
+
+/*==============================================
+ *                系统参数定义
+ *==============================================*/
+// 交通灯状态定义
+#define STATE_NS_GREEN_EW_RED     0  // 南北绿灯，东西红灯
+#define STATE_NS_YELLOW_EW_RED    1  // 南北黄灯，东西红灯  
+#define STATE_NS_RED_EW_GREEN     2  // 南北红灯，东西绿灯
+#define STATE_NS_RED_EW_YELLOW    3  // 南北红灯，东西黄灯
+
+// 时间配置（单位：秒）
+#define GREEN_LIGHT_TIME    5    // 绿灯时间
+#define YELLOW_LIGHT_TIME   3     // 黄灯时间
+#define FLASH_START_TIME    3     // 开始闪烁的剩余时间
+
+// Timer0配置（2ms中断 @ 11.0592MHz）
+#define TIMER0_RELOAD_H     0xA9  // 定时器0重装值高8位
+#define TIMER0_RELOAD_L     0x6A  // 定时器0重装值低8位
 
 /*-----------------------显示器硬件配置-----------------------*/
 // 数码管控制端口
@@ -45,36 +67,31 @@ sbit KEY_EMERGENCY = P1 ^ 2; // 紧急延时键
 /*-----------------------蜂鸣器配置---------------------------*/
 sbit BUZZER_PIN = P1 ^ 3; // 蜂鸣器控制端口
 
-/*-----------------------调试引脚配置-------------------------*/
-// 调试LED，用于验证定时器和状态机工作
-sbit DEBUG_1S_PIN = P3 ^ 6;    // 1秒定时指示（每秒翻转）
-sbit DEBUG_STATE_PIN = P3 ^ 7; // 状态机指示（状态切换时翻转）
-
 /*-----------------------扩展接口配置-------------------------*/
 // 预留蓝牙模块接口
 sbit BLUETOOTH_RX = P3 ^ 4; // 蓝牙接收端口
 sbit BLUETOOTH_TX = P3 ^ 5; // 蓝牙发送端口
 
-// 预留WiFi/网络模块接口
-sbit WIFI_CS = P1 ^ 4;  // WiFi片选
-sbit WIFI_RST = P1 ^ 5; // WiFi复位
+// // 预留WiFi/网络模块接口
+// sbit WIFI_CS = P1 ^ 4;  // WiFi片选
+// sbit WIFI_RST = P1 ^ 5; // WiFi复位
 
-// DS18B20温度传感器接口
-sbit DS18B20_DQ = P1 ^ 6; // DS18B20数据线
+// // DS18B20温度传感器接口
+// sbit DS18B20_DQ = P1 ^ 6; // DS18B20数据线
 
-// 风扇控制接口
-sbit FAN_CONTROL = P1 ^ 7; // 风扇控制端口
+// // 风扇控制接口
+// sbit FAN_CONTROL = P1 ^ 7; // 风扇控制端口
 
 // 红外遥控接口
 sbit IR_RECEIVER = P3 ^ 6;    // 红外接收端口
 sbit IR_RECEIVE_PIN = P3 ^ 6; // 红外接收端口（别名）
 
 // 扩展模块电源控制
-sbit EXT_POWER_PIN = P1 ^ 3; // 扩展模块电源控制
+// sbit EXT_POWER_PIN = P1 ^ 3; // 扩展模块电源控制
 
 // 预留传感器接口
-#define SENSOR_DATA P1 ^ 6   // 传感器数据端口
-#define SENSOR_ENABLE P1 ^ 7 // 传感器使能端口
+// #define SENSOR_DATA P1 ^ 6   // 传感器数据端口
+// #define SENSOR_ENABLE P1 ^ 7 // 传感器使能端口
 
 /*=======================系统参数配置=======================*/
 
@@ -94,9 +111,6 @@ sbit EXT_POWER_PIN = P1 ^ 3; // 扩展模块电源控制
 #define BUZZER_THRESHOLD 5 // 开始蜂鸣器提示的剩余时间
 #define BLINK_INTERVAL 500 // 闪烁间隔（毫秒）
 
-/*-----------------------定时器配置---------------------------*/
-#define TIMER0_RELOAD_H 0xFC // 定时器0重装值高8位（1ms@12MHz）
-#define TIMER0_RELOAD_L 0x67 // 定时器0重装值低8位
 
 /*-----------------------系统状态定义-------------------------*/
 // 交通灯状态

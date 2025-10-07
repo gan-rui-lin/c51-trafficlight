@@ -386,6 +386,16 @@
               <FileType>1</FileType>
               <FilePath>.\smart_traffic\main.c</FilePath>
             </File>
+            <File>
+              <FileName>config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\smart_traffic\config.h</FilePath>
+            </File>
+            <File>
+              <FileName>traffic_light_simple.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\smart_traffic\traffic_light_simple.h</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

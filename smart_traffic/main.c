@@ -1,68 +1,14 @@
-// /**************************************************
-//  * 文件名:    main.c
-//  * 作者:      GitHub Copilot  
-//  * 日期:      2025-10-07
-//  * 描述:      智能交通灯系统 - 单文件Timer0中断版本
-//  *           使用Timer0中断实现精确的1秒定时和交通灯切换
-//  *           使用标准库但增加兼容性处理
-//  **************************************************/
+/**************************************************
+ * 文件名:    main_modular.c
+ * 作者:      GitHub Copilot  
+ * 日期:      2025-10-07
+ * 描述:      智能交通灯系统 - 模块化版本
+ *           基于可工作的单文件版本改造
+ *           使用config.h和traffic_light模块
+ **************************************************/
 
-// /**************************************************
-//  * 文件名:    main.c
-//  * 作者:      GitHub Copilot  
-//  * 日期:      2025-10-07
-//  * 描述:      智能交通灯系统 - 单文件Timer0中断版本
-//  *           使用Timer0中断实现精确的1秒定时和交通灯切换
-//  *           兼容性优化版本
-//  **************************************************/
-
-// 手动定义必要的寄存器（兼容性更好）
-sfr P2   = 0xA0;   // P2口
-sfr P3   = 0xB0;   // P3口  
-sfr TMOD = 0x89;   // 定时器模式寄存器
-sfr TH0  = 0x8C;   // 定时器0高字节
-sfr TL0  = 0x8A;   // 定时器0低字节
-sfr TCON = 0x88;   // 定时器控制寄存器
-sfr IE   = 0xA8;   // 中断使能寄存器
-sfr IP   = 0xB8;   // 中断优先级寄存器
-
-// 位定义
-sbit TR0 = TCON^4; // 定时器0运行控制位
-sbit TF0 = TCON^5; // 定时器0溢出标志
-sbit ET0 = IE^1;   // 定时器0中断使能
-sbit EA  = IE^7;   // 总中断使能
-sbit PT0 = IP^1;   // 定时器0优先级控制
-
-/*==============================================
- *                引脚定义部分
- *==============================================*/
-// 调试LED引脚定义  
-sbit DEBUG_1S_PIN    = P3^6;  // 1秒指示灯（心跳）
-sbit DEBUG_STATE_PIN = P3^7;  // 状态指示灯
-
-// 南北方向交通灯引脚定义
-sbit NS_RED_PIN      = P2^0;  // 南北红灯
-sbit NS_YELLOW_PIN   = P2^1;  // 南北黄灯  
-sbit NS_GREEN_PIN    = P2^2;  // 南北绿灯
-
-// 东西方向交通灯引脚定义
-sbit EW_RED_PIN      = P2^3;  // 东西红灯
-sbit EW_YELLOW_PIN   = P2^4;  // 东西黄灯
-sbit EW_GREEN_PIN    = P2^5;  // 东西绿灯
-
-/*==============================================
- *                系统参数定义
- *==============================================*/
-// 交通灯状态定义
-#define STATE_NS_GREEN_EW_RED     0  // 南北绿灯，东西红灯
-#define STATE_NS_YELLOW_EW_RED    1  // 南北黄灯，东西红灯  
-#define STATE_NS_RED_EW_GREEN     2  // 南北红灯，东西绿灯
-#define STATE_NS_RED_EW_YELLOW    3  // 南北红灯，东西黄灯
-
-// 时间配置（单位：秒）
-#define GREEN_LIGHT_TIME    2    // 绿灯时间
-#define YELLOW_LIGHT_TIME   2     // 黄灯时间
-#define FLASH_START_TIME    2     // 开始闪烁的剩余时间
+#include "config.h"
+#include "traffic_light_simple.h"
 
 /*==============================================
  *                全局变量定义
@@ -196,8 +142,6 @@ void SwitchToNextState(void)
  * @param  无  
  * @retval 无
  * @note   11.0592MHz晶振，2ms定时
- *         计算：2ms = 2000us = 2000 * 11.0592 = 22118.4 ≈ 22118个机器周期
- *         65536 - 22118 = 43418 = 0xA96A
  */
 void Timer0_Init(void)
 {
@@ -206,8 +150,8 @@ void Timer0_Init(void)
     TMOD |= 0x01;        // 设置Timer0为模式1
     
     // 设置定时器初值（2ms定时）
-    TH0 = 0xA9;          // 高8位
-    TL0 = 0x6A;          // 低8位
+    TH0 = TIMER0_RELOAD_H;
+    TL0 = TIMER0_RELOAD_L;
     
     // 清除相关标志位
     TF0 = 0;             // 清除Timer0溢出标志
@@ -237,12 +181,12 @@ void Timer0_Init(void)
 void Timer0_ISR(void) interrupt 1
 {
     // 重新装载定时器初值
-    TH0 = 0xA9;
-    TL0 = 0x6A;
+    TH0 = TIMER0_RELOAD_H;
+    TL0 = TIMER0_RELOAD_L;
+    
+    // 关中断保护（重要！）
     TR0 = 0;  // 暂停计时器
     EA = 0;   // 全局关中断
-
-
     
     // 2ms定时计数
     timer0Count++;
@@ -251,14 +195,10 @@ void Timer0_ISR(void) interrupt 1
     // 心跳指示：每100次中断（200ms）切换一次DEBUG_1S_PIN
     if ((timer0Count % 100) == 0) {
         DEBUG_1S_PIN = !DEBUG_1S_PIN;
-
-        // if(P2 == 0x00) P2 = 0xff;
-        // else P2 = 0x00;
     }
     
-    
     // 处理闪烁逻辑（每2ms检查一次）
-    // HandleTrafficLightFlash();
+    HandleTrafficLightFlash();
     
     // 1秒定时处理：500次中断 = 1000ms = 1秒
     if (timer0Count >= 50) {
@@ -273,11 +213,9 @@ void Timer0_ISR(void) interrupt 1
         if (timeLeft == 0) {
             SwitchToNextState();
         }
-
-        // if(P2 == 0x00) P2 = 0xff;
-        // else P2 = 0x00;
     }
-
+    
+    // 恢复中断（重要！）
     EA = 1;   // 再开中断
     TR0 = 1;  // 恢复定时器
 }
@@ -348,33 +286,10 @@ void main(void)
         // 主循环可以处理其他任务，如按键检测、通信等
         // 目前为空，所有交通灯逻辑都在中断中处理
         
-        // 可选：添加低功耗模式或其他后台任务
-        // 例如：键盘扫描、故障检测等
+        // 未来可以在这里添加：
+        // - 按键扫描
+        // - 显示更新
+        // - 通信处理
+        // - 故障检测
     }
 }
-
-// #include <reg51.h>
-
-// void delay(unsigned int d) {
-//     unsigned int i,j;
-//     for(i=0;i<d;i++) for(j=0;j<200;j++);
-// }
-
-// void main(void) {
-//     // 强制把P2设为输出低再试
-//     P2 = 0x00;         // 所有P2引脚强制为0（熄灭，如果LED为高电平点亮）
-//     delay(500);
-
-//     while(1) {
-//         P2 = 0x01;     // 仅P2.0 = 1
-//         delay(200);
-//         P2 = 0x02;     // 仅P2.1 = 1
-//         delay(200);
-//         P2 = 0x04;     // 仅P2.2 = 1
-//         delay(200);
-//         P2 = 0xFF;     // 所有P2置高
-//         delay(400);
-//         P2 = 0x00;     // 所有P2置低
-//         delay(400);
-//     }
-// }
