@@ -382,9 +382,19 @@
               <FilePath>.\STARTUP.A51</FilePath>
             </File>
             <File>
+              <FileName>display.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\smart_traffic\display.c</FilePath>
+            </File>
+            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\smart_traffic\main.c</FilePath>
+            </File>
+            <File>
+              <FileName>traffic_light.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\smart_traffic\traffic_light.c</FilePath>
             </File>
             <File>
               <FileName>config.h</FileName>
@@ -392,9 +402,9 @@
               <FilePath>.\smart_traffic\config.h</FilePath>
             </File>
             <File>
-              <FileName>traffic_light.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\smart_traffic\traffic_light.c</FilePath>
+              <FileName>display.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\smart_traffic\display.h</FilePath>
             </File>
             <File>
               <FileName>traffic_light.h</FileName>

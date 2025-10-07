@@ -1,4 +1,5 @@
 ".\Objects\STARTUP.obj",
+".\Objects\display.obj",
 ".\Objects\main.obj",
 ".\Objects\traffic_light.obj" 
 TO ".\Objects\samrt_traffic_light_system" 

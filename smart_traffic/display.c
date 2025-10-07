@@ -8,7 +8,7 @@
 
 #include "display.h"
 #include "config.h"
-#include "timer.h"
+// #include "timer.h"
 
 /*-----------------------数码管显示表-------------------------*/
 static const unsigned char segmentTable[] = {
@@ -50,13 +50,13 @@ void Display_ShowTime(unsigned char nsTime, unsigned char ewTime)
     digit = nsTime / 10;
     if (digit > 9) digit = 9;
     DISPLAY_DATA_PORT = segmentTable[digit];
-    Delay_ms(1);
+//    Delay_ms(1);
     DISPLAY_SEL_A = 0;
     
     DISPLAY_SEL_B = 1;
     digit = nsTime % 10;
     DISPLAY_DATA_PORT = segmentTable[digit];
-    Delay_ms(1);
+//    Delay_ms(1);
     DISPLAY_SEL_B = 0;
     
     // 显示东西方向时间（右两位）
@@ -64,7 +64,7 @@ void Display_ShowTime(unsigned char nsTime, unsigned char ewTime)
     digit = ewTime / 10;
     if (digit > 9) digit = 9;
     DISPLAY_DATA_PORT = segmentTable[digit];
-    Delay_ms(1);
+//    Delay_ms(1);
     DISPLAY_SEL_C = 0;
 }
 

@@ -9,7 +9,7 @@
 #ifndef __DISPLAY_H__
 #define __DISPLAY_H__
 
-#include "buzzer.h"
+// #include "buzzer.h"
 #include "config.h"
 
 /*-----------------------显示模式定义-------------------------*/

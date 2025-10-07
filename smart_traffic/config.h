@@ -129,3 +129,5 @@ typedef enum {
   DIRECTION_NS = 0, // 南北方向
   DIRECTION_EW = 1  // 东西方向
 } Direction_t;
+
+#endif // __CONFIG_H__

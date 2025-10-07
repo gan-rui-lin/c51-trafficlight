@@ -8,7 +8,24 @@
 
 #include "traffic_light.h"
 
+
 /*-----------------------全局变量定义-------------------------*/
+// 简化版本的全局状态变量（供main.c使用）
+volatile unsigned char currentState = STATE_NS_GREEN_EW_RED;    // 当前交通灯状态
+volatile unsigned char timeLeft = GREEN_LIGHT_TIME;             // 当前状态剩余时间
+volatile unsigned char isFlashing = 0;                          // 闪烁标志
+volatile unsigned int timer0Count = 0;                          // Timer0中断计数器
+volatile unsigned int flashCount = 0;                           // 闪烁计数器
+
+// 状态时间配置表（各状态持续时间）
+unsigned char stateTimeTable[4] = {
+    GREEN_LIGHT_TIME,   // STATE_NS_GREEN_EW_RED
+    YELLOW_LIGHT_TIME,  // STATE_NS_YELLOW_EW_RED
+    GREEN_LIGHT_TIME,   // STATE_NS_RED_EW_GREEN
+    YELLOW_LIGHT_TIME   // STATE_NS_RED_EW_YELLOW
+};
+
+// 原有的方向状态变量（保留用于扩展功能）
 unsigned char nsCurrentState = LIGHT_GREEN;     // 南北方向当前状态
 unsigned char ewCurrentState = LIGHT_RED;       // 东西方向当前状态
 unsigned char nsTimeLeft = DEFAULT_GREEN_TIME;  // 南北方向剩余时间
@@ -30,343 +47,190 @@ static unsigned int blinkCounter = 0;      // 闪烁计数器
 static unsigned char globalState = 0;      // 全局状态：0=NS绿EW红, 1=NS黄EW红, 2=NS红EW绿, 3=NS红EW黄
 static unsigned char globalTimeLeft = DEFAULT_GREEN_TIME;
 
-/*-----------------------内部函数声明-------------------------*/
-static void updateLightOutput(unsigned char direction, unsigned char state, unsigned char isBlinking);
-static unsigned char getNextState(unsigned char currentState);
-static unsigned char getTimeForState(unsigned char direction, unsigned char state);
-
-/**
- * @brief  交通灯系统初始化
- */
-void TrafficLight_Init(void)
-{
-    // 初始化全局状态机：从南北绿灯开始
-    globalState = 0;  // 0=NS绿EW红
-    globalTimeLeft = nsGreenTime;
-    
-    // 初始化南北方向交通灯（开始为绿灯）
-    nsCurrentState = LIGHT_GREEN;
-    nsTimeLeft = nsGreenTime;
-    
-    // 初始化东西方向交通灯（开始为红灯）
-    ewCurrentState = LIGHT_RED;
-    ewTimeLeft = nsGreenTime + nsYellowTime;  // 红灯时间 = 对方绿灯+黄灯时间
-    
-    // 重置内部状态
-    manualMode = 0;
-    blinkCounter = 0;
-    
-    // 设置初始输出状态
-    updateLightOutput(DIRECTION_NS, LIGHT_GREEN, 0);
-    updateLightOutput(DIRECTION_EW, LIGHT_RED, 0);
-}
-
 /**
  * @brief  设置交通灯状态
+ * @param  state: 交通灯状态(0-3)
+ * @retval 无
  */
-void TrafficLight_SetState(unsigned char direction, unsigned char state)
+void SetTrafficLights(unsigned char state)
 {
-    if (direction == DIRECTION_NS) {
-        nsCurrentState = state;
-        nsTimeLeft = getTimeForState(DIRECTION_NS, state);
-    } else if (direction == DIRECTION_EW) {
-        ewCurrentState = state;
-        ewTimeLeft = getTimeForState(DIRECTION_EW, state);
-    }
+    // 先关闭所有交通灯
+    NS_RED_PIN = 0;    NS_YELLOW_PIN = 0;    NS_GREEN_PIN = 0;
+    EW_RED_PIN = 0;    EW_YELLOW_PIN = 0;    EW_GREEN_PIN = 0;
     
-    // 更新物理输出
-    updateLightOutput(direction, state, 0);
-}
-
-/*
-**
- * @brief  更新交通灯物理输出
- */
-/*
-void TrafficLight_UpdateOutput(unsigned char direction, unsigned char state, unsigned char isBlinking)
-{
-    updateLightOutput(direction, state, isBlinking);
-}
-*/
-
-/**
- * @brief  交通灯定时处理（每秒调用一次）
- */
-void TrafficLight_TimerHandler(void)
-{
-    // 如果是手动模式，不进行自动处理
-    if (manualMode) return;
-    
-    // 使用简化的全局状态机
-    if (globalTimeLeft > 0) {
-        globalTimeLeft--;
-        
-        // 更新各方向的时间显示
-        switch (globalState) {
-            case 0: // NS绿, EW红
-                nsTimeLeft = globalTimeLeft;
-                ewTimeLeft = globalTimeLeft + nsYellowTime;
-                break;
-            case 1: // NS黄, EW红  
-                nsTimeLeft = globalTimeLeft;
-                ewTimeLeft = globalTimeLeft;
-                break;
-            case 2: // NS红, EW绿
-                nsTimeLeft = globalTimeLeft + ewYellowTime;
-                ewTimeLeft = globalTimeLeft;
-                break;
-            case 3: // NS红, EW黄
-                nsTimeLeft = globalTimeLeft;
-                ewTimeLeft = globalTimeLeft;
-                break;
-        }
-        
-        if (globalTimeLeft == 0) {
-            // 时间到，切换到下一个状态
-            globalState++;
-            if (globalState >= 4) {
-                globalState = 0;
-            }
+    // 根据状态设置对应的交通灯
+    switch(state) {
+        case STATE_NS_GREEN_EW_RED:     // 南北绿灯，东西红灯
+            NS_GREEN_PIN = 1;
+            EW_RED_PIN = 1;
+            break;
             
-            // 设置新状态的时间和灯光
-            switch (globalState) {
-                case 0: // NS绿, EW红
-                    globalTimeLeft = nsGreenTime;
-                    nsCurrentState = LIGHT_GREEN;
-                    ewCurrentState = LIGHT_RED;
-                    break;
-                case 1: // NS黄, EW红
-                    globalTimeLeft = nsYellowTime;
-                    nsCurrentState = LIGHT_YELLOW;
-                    ewCurrentState = LIGHT_RED;
-                    break;
-                case 2: // NS红, EW绿
-                    globalTimeLeft = ewGreenTime;
-                    nsCurrentState = LIGHT_RED;
-                    ewCurrentState = LIGHT_GREEN;
-                    break;
-                case 3: // NS红, EW黄
-                    globalTimeLeft = ewYellowTime;
-                    nsCurrentState = LIGHT_RED;
-                    ewCurrentState = LIGHT_YELLOW;
-                    break;
-            }
+        case STATE_NS_YELLOW_EW_RED:    // 南北黄灯，东西红灯
+            NS_YELLOW_PIN = 1;
+            EW_RED_PIN = 1;
+            break;
             
-            // 更新物理输出
-            updateLightOutput(DIRECTION_NS, nsCurrentState, 0);
-            updateLightOutput(DIRECTION_EW, ewCurrentState, 0);
-        }
-    }
-}
-
-/**
- * @brief  交通灯闪烁处理（定时调用）
- */
-void TrafficLight_BlinkHandler(void)
-{
-    blinkCounter++;
-    if (blinkCounter >= 50) {  // 约500ms闪烁一次
-        blinkCounter = 0;
-        // 这里可以添加闪烁逻辑
-    }
-}
-
-/*
-**
- * @brief  设置交通灯时间
- */
-/*
-unsigned char TrafficLight_SetTime(unsigned char direction, unsigned char greenTime, unsigned char yellowTime)
-{
-    // 参数有效性检查
-    if (greenTime < 5 || greenTime > 99) return 0;
-    if (yellowTime < 2 || yellowTime > 10) return 0;
-    
-    if (direction == DIRECTION_NS) {
-        nsGreenTime = greenTime;
-        nsYellowTime = yellowTime;
-        nsRedTime = greenTime + yellowTime;  // 红灯时间根据对方绿灯+黄灯时间计算
-    } else if (direction == DIRECTION_EW) {
-        ewGreenTime = greenTime;
-        ewYellowTime = yellowTime;
-        ewRedTime = greenTime + yellowTime;
-    } else {
-        return 0;  // 无效方向
-    }
-    
-    return 1;  // 设置成功
-}
-*/
-
-/**
- * @brief  获取交通灯剩余时间
- */
-unsigned char TrafficLight_GetTimeLeft(unsigned char direction)
-{
-    if (direction == DIRECTION_NS) {
-        return nsTimeLeft;
-    } else if (direction == DIRECTION_EW) {
-        return ewTimeLeft;
-    }
-    return 0;  // 无效方向
-}
-
-/**
- * @brief  获取交通灯当前状态
- */
-unsigned char TrafficLight_GetState(unsigned char direction)
-{
-    if (direction == DIRECTION_NS) {
-        return nsCurrentState;
-    } else if (direction == DIRECTION_EW) {
-        return ewCurrentState;
-    }
-    return LIGHT_RED;  // 默认返回红灯
-}
-
-/**
- * @brief  紧急延时处理
- */
-void TrafficLight_EmergencyExtend(void)
-{
-    // 延长当前绿灯状态时间
-    if (nsCurrentState == LIGHT_GREEN) {
-        nsTimeLeft += 10;  // 延长10秒
-    }
-    if (ewCurrentState == LIGHT_GREEN) {
-        ewTimeLeft += 10;  // 延长10秒
-    }
-}
-
-/*
-**
- * @brief  切换到手动控制模式
- */
-/*
-void TrafficLight_ManualMode(unsigned char enable)
-{
-    manualMode = enable;
-}
-*/
-
-/*
-**
- * @brief  手动控制交通灯
- */
-/*
-void TrafficLight_ManualControl(unsigned char direction, unsigned char state)
-{
-    if (manualMode) {
-        TrafficLight_SetState(direction, state);
-    }
-}
-*/
-
-/*
-**
- * @brief  重置交通灯为默认状态
- */
-/*
-void TrafficLight_Reset(void)
-{
-    TrafficLight_Init();
-}
-*/
-
-/*-----------------------内部函数实现-------------------------*/
-
-/**
- * @brief  获取下一个状态
- * @param  currentState: 当前状态
- * @retval 下一个状态
- */
-static unsigned char getNextState(unsigned char currentState)
-{
-    switch (currentState) {
-        case LIGHT_GREEN:
-            return LIGHT_YELLOW;
-        case LIGHT_YELLOW:
-            return LIGHT_RED;
-        case LIGHT_RED:
-            return LIGHT_GREEN;
+        case STATE_NS_RED_EW_GREEN:     // 南北红灯，东西绿灯
+            NS_RED_PIN = 1;
+            EW_GREEN_PIN = 1;
+            break;
+            
+        case STATE_NS_RED_EW_YELLOW:    // 南北红灯，东西黄灯
+            NS_RED_PIN = 1;
+            EW_YELLOW_PIN = 1;
+            break;
+            
         default:
-            return LIGHT_RED;  // 异常情况默认返回红灯
+            // 异常状态：所有红灯亮起（安全状态）
+            NS_RED_PIN = 1;
+            EW_RED_PIN = 1;
+            break;
+    }
+}
+
+
+/**
+ * @brief  处理交通灯闪烁逻辑
+ * @param  无
+ * @retval 无
+ */
+void HandleTrafficLightFlash(void)
+{
+    // 只在最后几秒进行闪烁
+    if (timeLeft <= FLASH_START_TIME && timeLeft > 0) {
+        isFlashing = 1;
+        
+        // 控制闪烁频率（约每500ms切换一次）
+        if ((flashCount % 250) == 0) {
+            switch(currentState) {
+                case STATE_NS_GREEN_EW_RED:     // 南北绿灯闪烁
+                    NS_GREEN_PIN = !NS_GREEN_PIN;
+                    break;
+                    
+                case STATE_NS_YELLOW_EW_RED:    // 南北黄灯闪烁
+                    NS_YELLOW_PIN = !NS_YELLOW_PIN;
+                    break;
+                    
+                case STATE_NS_RED_EW_GREEN:     // 东西绿灯闪烁
+                    EW_GREEN_PIN = !EW_GREEN_PIN;
+                    break;
+                    
+                case STATE_NS_RED_EW_YELLOW:    // 东西黄灯闪烁
+                    EW_YELLOW_PIN = !EW_YELLOW_PIN;
+                    break;
+            }
+        }
+    } else {
+        isFlashing = 0;
     }
 }
 
 /**
- * @brief  获取指定方向和状态的时间
- * @param  direction: 方向
- * @param  state: 状态
- * @retval 对应的时间
+ * @brief  切换到下一个交通灯状态
+ * @param  无
+ * @retval 无
  */
-static unsigned char getTimeForState(unsigned char direction, unsigned char state)
+void SwitchToNextState(void)
 {
-    if (direction == DIRECTION_NS) {
-        switch (state) {
-            case LIGHT_GREEN:  return nsGreenTime;
-            case LIGHT_YELLOW: return nsYellowTime;
-            case LIGHT_RED:    return nsRedTime;
-            default:           return nsRedTime;
-        }
-    } else if (direction == DIRECTION_EW) {
-        switch (state) {
-            case LIGHT_GREEN:  return ewGreenTime;
-            case LIGHT_YELLOW: return ewYellowTime;
-            case LIGHT_RED:    return ewRedTime;
-            default:           return ewRedTime;
-        }
-    }
-    return DEFAULT_RED_TIME;  // 默认时间
+    // 循环切换到下一个状态
+    currentState = (currentState + 1) % 4;
+    
+    // 设置新状态的时间
+    timeLeft = stateTimeTable[currentState];
+    
+    // 设置交通灯硬件状态
+    SetTrafficLights(currentState);
+    
+    // 重置闪烁标志
+    isFlashing = 0;
+    
+    // 状态切换指示：DEBUG_STATE_PIN闪烁一次
+    DEBUG_STATE_PIN = 1;
+    DEBUG_STATE_PIN = 0;
 }
 
+/*==============================================
+ *                定时器初始化
+ *==============================================*/
 /**
- * @brief  更新交通灯物理输出
- * @param  direction: 方向
- * @param  state: 状态
- * @param  isBlinking: 是否闪烁
+ * @brief  Timer0初始化 - 配置为2ms中断
+ * @param  无  
+ * @retval 无
+ * @note   11.0592MHz晶振，2ms定时
  */
-static void updateLightOutput(unsigned char direction, unsigned char state, unsigned char isBlinking)
+void Timer0_Init(void)
 {
-    if (direction == DIRECTION_NS) {
-        // 先关闭所有南北方向的灯
-        NS_RED_PIN = 0;
-        NS_YELLOW_PIN = 0;
-        NS_GREEN_PIN = 0;
+    // 设置Timer0为模式1（16位定时器）
+    TMOD &= 0xF0;        // 清除Timer0控制位
+    TMOD |= 0x01;        // 设置Timer0为模式1
+    
+    // 设置定时器初值（2ms定时）
+    TH0 = TIMER0_RELOAD_H;
+    TL0 = TIMER0_RELOAD_L;
+    
+    // 清除相关标志位
+    TF0 = 0;             // 清除Timer0溢出标志
+    
+    // 配置中断
+    ET0 = 1;             // 使能Timer0中断
+    PT0 = 1;             // 设置Timer0为高优先级中断
+    EA = 1;              // 使能全局中断
+    
+    // 启动定时器
+    TR0 = 1;             // 启动Timer0
+    
+    // 初始化计数器
+    timer0Count = 0;
+    flashCount = 0;
+}
+
+/*==============================================
+ *                中断服务函数
+ *==============================================*/
+/**
+ * @brief  Timer0中断服务函数
+ * @param  无
+ * @retval 无
+ * @note   每2ms执行一次，500次中断产生1秒定时
+ */
+void Timer0_ISR(void) interrupt 1
+{
+    // 重新装载定时器初值
+    TH0 = TIMER0_RELOAD_H;
+    TL0 = TIMER0_RELOAD_L;
+    
+    // 关中断保护（重要！）
+    TR0 = 0;  // 暂停计时器
+    EA = 0;   // 全局关中断
+    
+    // 2ms定时计数
+    timer0Count++;
+    flashCount++;
+    
+    // 心跳指示：每100次中断（200ms）切换一次DEBUG_1S_PIN
+    if ((timer0Count % 100) == 0) {
+        DEBUG_1S_PIN = !DEBUG_1S_PIN;
+    }
+    
+    // 处理闪烁逻辑（每2ms检查一次）
+    HandleTrafficLightFlash();
+    
+    // 1秒定时处理：500次中断 = 1000ms = 1秒
+    if (timer0Count >= 50) {
+        timer0Count = 0;  // 重置计数器
         
-        // 根据状态点亮对应的灯（非闪烁模式）
-        if (!isBlinking) {
-            switch (state) {
-                case LIGHT_RED:
-                    NS_RED_PIN = 1;
-                    break;
-                case LIGHT_YELLOW:
-                    NS_YELLOW_PIN = 1;
-                    break;
-                case LIGHT_GREEN:
-                    NS_GREEN_PIN = 1;
-                    break;
-            }
+        // 时间递减
+        if (timeLeft > 0) {
+            timeLeft--;
         }
-    } else if (direction == DIRECTION_EW) {
-        // 先关闭所有东西方向的灯
-        EW_RED_PIN = 0;
-        EW_YELLOW_PIN = 0;
-        EW_GREEN_PIN = 0;
         
-        // 根据状态点亮对应的灯（非闪烁模式）
-        if (!isBlinking) {
-            switch (state) {
-                case LIGHT_RED:
-                    EW_RED_PIN = 1;
-                    break;
-                case LIGHT_YELLOW:
-                    EW_YELLOW_PIN = 1;
-                    break;
-                case LIGHT_GREEN:
-                    EW_GREEN_PIN = 1;
-                    break;
-            }
+        // 检查是否需要切换状态
+        if (timeLeft == 0) {
+            SwitchToNextState();
         }
     }
+    
+    // 恢复中断（重要！）
+    EA = 1;   // 再开中断
+    TR0 = 1;  // 恢复定时器
 }
