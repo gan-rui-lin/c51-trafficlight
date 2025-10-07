@@ -239,7 +239,7 @@ void Timer0_ISR(void) interrupt 1
     // 重新装载定时器初值
     TH0 = 0xA9;
     TL0 = 0x6A;
-TR0 = 0;  // 暂停计时器
+    TR0 = 0;  // 暂停计时器
     EA = 0;   // 全局关中断
 
 

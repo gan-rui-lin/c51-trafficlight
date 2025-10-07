@@ -1,4 +1,4 @@
-LX51 LINKER/LOCATER V4.66.100.0                                                         10/07/2025  16:53:22  PAGE 1
+LX51 LINKER/LOCATER V4.66.100.0                                                         10/07/2025  18:25:16  PAGE 1
 
 
 LX51 LINKER/LOCATER V4.66.100.0, INVOKED BY:
@@ -67,7 +67,7 @@ OVERLAY MAP OF MODULE:   .\Objects\samrt_traffic_light_system (?C_STARTUP)
 
 
 FUNCTION/MODULE                    BIT_GROUP   DATA_GROUP 
-LX51 LINKER/LOCATER V4.66.100.0                                                       10/07/2025  16:53:22  PAGE 2
+LX51 LINKER/LOCATER V4.66.100.0                                                       10/07/2025  18:25:16  PAGE 2
 
 
 --> CALLED FUNCTION/MODULE        START  STOP  START  STOP
@@ -135,7 +135,7 @@ PUBLIC SYMBOLS OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
       0100007FH   CODE     ---       System_Init
 *SFR* 00000088H   DATA     BYTE      TCON
 *SFR* 00000088H.5 DATA     BIT       TF0
-LX51 LINKER/LOCATER V4.66.100.0                                                       10/07/2025  16:53:22  PAGE 3
+LX51 LINKER/LOCATER V4.66.100.0                                                       10/07/2025  18:25:16  PAGE 3
 
 
 *SFR* 0000008CH   DATA     BYTE      TH0
@@ -203,7 +203,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
       000000A8H.7 SFRSYM    DATA     BIT       EA
       000000A8H   SFRSYM    DATA     BYTE      IE
       000000B0H.7 SFRSYM    DATA     BIT       DEBUG_STATE_PIN
-LX51 LINKER/LOCATER V4.66.100.0                                                       10/07/2025  16:53:22  PAGE 4
+LX51 LINKER/LOCATER V4.66.100.0                                                       10/07/2025  18:25:16  PAGE 4
 
 
       000000B0H.6 SFRSYM    DATA     BIT       DEBUG_1S_PIN
@@ -271,7 +271,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
       0100011FH   LINE      CODE     ---       #154
       01000121H   LINE      CODE     ---       #155
       01000122H   LINE      CODE     ---       #157
-LX51 LINKER/LOCATER V4.66.100.0                                                       10/07/2025  16:53:22  PAGE 5
+LX51 LINKER/LOCATER V4.66.100.0                                                       10/07/2025  18:25:16  PAGE 5
 
 
       01000122H   LINE      CODE     ---       #158
@@ -339,7 +339,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
       ---         BLOCKEND  ---      ---       LVL=0
 
       0100007FH   BLOCK     CODE     ---       LVL=0
-LX51 LINKER/LOCATER V4.66.100.0                                                       10/07/2025  16:53:22  PAGE 6
+LX51 LINKER/LOCATER V4.66.100.0                                                       10/07/2025  18:25:16  PAGE 6
 
 
       0100009FH   BLOCK     CODE     NEAR LAB  LVL=1
