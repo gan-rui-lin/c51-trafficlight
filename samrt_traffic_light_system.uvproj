@@ -392,9 +392,14 @@
               <FilePath>.\smart_traffic\config.h</FilePath>
             </File>
             <File>
-              <FileName>traffic_light_simple.h</FileName>
+              <FileName>traffic_light.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\smart_traffic\traffic_light.c</FilePath>
+            </File>
+            <File>
+              <FileName>traffic_light.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\smart_traffic\traffic_light_simple.h</FilePath>
+              <FilePath>.\smart_traffic\traffic_light.h</FilePath>
             </File>
           </Files>
         </Group>

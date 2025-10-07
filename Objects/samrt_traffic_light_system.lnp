@@ -1,5 +1,6 @@
 ".\Objects\STARTUP.obj",
-".\Objects\main.obj" 
+".\Objects\main.obj",
+".\Objects\traffic_light.obj" 
 TO ".\Objects\samrt_traffic_light_system" 
 
 PRINT(".\Listings\samrt_traffic_light_system.map") CLASSES (CODE (C:0x0-C:0x1FFF), CONST (C:0x0-C:0x1FFF), 
