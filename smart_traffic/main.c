@@ -60,9 +60,9 @@ sbit EW_GREEN_PIN    = P2^5;  // 东西绿灯
 #define STATE_NS_RED_EW_YELLOW    3  // 南北红灯，东西黄灯
 
 // 时间配置（单位：秒）
-#define GREEN_LIGHT_TIME    25    // 绿灯时间
-#define YELLOW_LIGHT_TIME   3     // 黄灯时间
-#define FLASH_START_TIME    3     // 开始闪烁的剩余时间
+#define GREEN_LIGHT_TIME    2    // 绿灯时间
+#define YELLOW_LIGHT_TIME   2     // 黄灯时间
+#define FLASH_START_TIME    2     // 开始闪烁的剩余时间
 
 /*==============================================
  *                全局变量定义
@@ -239,6 +239,10 @@ void Timer0_ISR(void) interrupt 1
     // 重新装载定时器初值
     TH0 = 0xA9;
     TL0 = 0x6A;
+TR0 = 0;  // 暂停计时器
+    EA = 0;   // 全局关中断
+
+
     
     // 2ms定时计数
     timer0Count++;
@@ -247,13 +251,17 @@ void Timer0_ISR(void) interrupt 1
     // 心跳指示：每100次中断（200ms）切换一次DEBUG_1S_PIN
     if ((timer0Count % 100) == 0) {
         DEBUG_1S_PIN = !DEBUG_1S_PIN;
+
+        // if(P2 == 0x00) P2 = 0xff;
+        // else P2 = 0x00;
     }
+    
     
     // 处理闪烁逻辑（每2ms检查一次）
     // HandleTrafficLightFlash();
     
     // 1秒定时处理：500次中断 = 1000ms = 1秒
-    if (timer0Count >= 500) {
+    if (timer0Count >= 50) {
         timer0Count = 0;  // 重置计数器
         
         // 时间递减
@@ -265,7 +273,13 @@ void Timer0_ISR(void) interrupt 1
         if (timeLeft == 0) {
             SwitchToNextState();
         }
+
+        // if(P2 == 0x00) P2 = 0xff;
+        // else P2 = 0x00;
     }
+
+    EA = 1;   // 再开中断
+    TR0 = 1;  // 恢复定时器
 }
 
 /*==============================================
