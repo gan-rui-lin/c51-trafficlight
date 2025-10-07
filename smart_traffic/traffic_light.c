@@ -26,6 +26,10 @@ static unsigned char ewRedTime = DEFAULT_RED_TIME;
 static unsigned char manualMode = 0;       // 手动控制模式标志
 static unsigned int blinkCounter = 0;      // 闪烁计数器
 
+// 简化的状态机变量
+static unsigned char globalState = 0;      // 全局状态：0=NS绿EW红, 1=NS黄EW红, 2=NS红EW绿, 3=NS红EW黄
+static unsigned char globalTimeLeft = DEFAULT_GREEN_TIME;
+
 /*-----------------------内部函数声明-------------------------*/
 static void updateLightOutput(unsigned char direction, unsigned char state, unsigned char isBlinking);
 static unsigned char getNextState(unsigned char currentState);
@@ -36,13 +40,17 @@ static unsigned char getTimeForState(unsigned char direction, unsigned char stat
  */
 void TrafficLight_Init(void)
 {
+    // 初始化全局状态机：从南北绿灯开始
+    globalState = 0;  // 0=NS绿EW红
+    globalTimeLeft = nsGreenTime;
+    
     // 初始化南北方向交通灯（开始为绿灯）
     nsCurrentState = LIGHT_GREEN;
-    nsTimeLeft = DEFAULT_GREEN_TIME;
+    nsTimeLeft = nsGreenTime;
     
     // 初始化东西方向交通灯（开始为红灯）
     ewCurrentState = LIGHT_RED;
-    ewTimeLeft = DEFAULT_RED_TIME;
+    ewTimeLeft = nsGreenTime + nsYellowTime;  // 红灯时间 = 对方绿灯+黄灯时间
     
     // 重置内部状态
     manualMode = 0;
@@ -89,24 +97,63 @@ void TrafficLight_TimerHandler(void)
     // 如果是手动模式，不进行自动处理
     if (manualMode) return;
     
-    // 处理南北方向
-    if (nsTimeLeft > 0) {
-        nsTimeLeft--;
-        if (nsTimeLeft == 0) {
-            // 时间到，切换到下一个状态
-            nsCurrentState = getNextState(nsCurrentState);
-            nsTimeLeft = getTimeForState(DIRECTION_NS, nsCurrentState);
-            updateLightOutput(DIRECTION_NS, nsCurrentState, 0);
+    // 使用简化的全局状态机
+    if (globalTimeLeft > 0) {
+        globalTimeLeft--;
+        
+        // 更新各方向的时间显示
+        switch (globalState) {
+            case 0: // NS绿, EW红
+                nsTimeLeft = globalTimeLeft;
+                ewTimeLeft = globalTimeLeft + nsYellowTime;
+                break;
+            case 1: // NS黄, EW红  
+                nsTimeLeft = globalTimeLeft;
+                ewTimeLeft = globalTimeLeft;
+                break;
+            case 2: // NS红, EW绿
+                nsTimeLeft = globalTimeLeft + ewYellowTime;
+                ewTimeLeft = globalTimeLeft;
+                break;
+            case 3: // NS红, EW黄
+                nsTimeLeft = globalTimeLeft;
+                ewTimeLeft = globalTimeLeft;
+                break;
         }
-    }
-    
-    // 处理东西方向
-    if (ewTimeLeft > 0) {
-        ewTimeLeft--;
-        if (ewTimeLeft == 0) {
+        
+        if (globalTimeLeft == 0) {
             // 时间到，切换到下一个状态
-            ewCurrentState = getNextState(ewCurrentState);
-            ewTimeLeft = getTimeForState(DIRECTION_EW, ewCurrentState);
+            globalState++;
+            if (globalState >= 4) {
+                globalState = 0;
+            }
+            
+            // 设置新状态的时间和灯光
+            switch (globalState) {
+                case 0: // NS绿, EW红
+                    globalTimeLeft = nsGreenTime;
+                    nsCurrentState = LIGHT_GREEN;
+                    ewCurrentState = LIGHT_RED;
+                    break;
+                case 1: // NS黄, EW红
+                    globalTimeLeft = nsYellowTime;
+                    nsCurrentState = LIGHT_YELLOW;
+                    ewCurrentState = LIGHT_RED;
+                    break;
+                case 2: // NS红, EW绿
+                    globalTimeLeft = ewGreenTime;
+                    nsCurrentState = LIGHT_RED;
+                    ewCurrentState = LIGHT_GREEN;
+                    break;
+                case 3: // NS红, EW黄
+                    globalTimeLeft = ewYellowTime;
+                    nsCurrentState = LIGHT_RED;
+                    ewCurrentState = LIGHT_YELLOW;
+                    break;
+            }
+            
+            // 更新物理输出
+            updateLightOutput(DIRECTION_NS, nsCurrentState, 0);
             updateLightOutput(DIRECTION_EW, ewCurrentState, 0);
         }
     }

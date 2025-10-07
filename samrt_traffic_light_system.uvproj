@@ -125,7 +125,7 @@
             <Oh166RecLen>16</Oh166RecLen>
           </OPTHX>
           <Simulator>
-            <UseSimulator>1</UseSimulator>
+            <UseSimulator>0</UseSimulator>
             <LoadApplicationAtStartup>1</LoadApplicationAtStartup>
             <RunToMain>1</RunToMain>
             <RestoreBreakpoints>1</RestoreBreakpoints>
@@ -137,7 +137,7 @@
             <RestoreSysVw>1</RestoreSysVw>
           </Simulator>
           <Target>
-            <UseTarget>0</UseTarget>
+            <UseTarget>1</UseTarget>
             <LoadApplicationAtStartup>1</LoadApplicationAtStartup>
             <RunToMain>0</RunToMain>
             <RestoreBreakpoints>1</RestoreBreakpoints>
@@ -149,7 +149,7 @@
             <RestoreSysVw>1</RestoreSysVw>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>-1</TargetSelection>
+          <TargetSelection>12</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -163,7 +163,7 @@
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
             <InitializationFile></InitializationFile>
-            <Driver></Driver>
+            <Driver>BIN\VDM51.DLL</Driver>
           </TargetDlls>
         </DebugOption>
         <Utilities>
@@ -186,9 +186,9 @@
         </Utilities>
         <Target51>
           <Target51Misc>
-            <MemoryModel>1</MemoryModel>
+            <MemoryModel>0</MemoryModel>
             <RTOS>0</RTOS>
-            <RomSize>1</RomSize>
+            <RomSize>0</RomSize>
             <DataHold>0</DataHold>
             <XDataHold>0</XDataHold>
             <UseOnchipRom>1</UseOnchipRom>
@@ -382,74 +382,9 @@
               <FilePath>.\STARTUP.A51</FilePath>
             </File>
             <File>
-              <FileName>config.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\smart_traffic\config.h</FilePath>
-            </File>
-            <File>
-              <FileName>timer.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\smart_traffic\timer.h</FilePath>
-            </File>
-            <File>
-              <FileName>buzzer.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\smart_traffic\buzzer.h</FilePath>
-            </File>
-            <File>
-              <FileName>display.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\smart_traffic\display.h</FilePath>
-            </File>
-            <File>
-              <FileName>traffic_light.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\smart_traffic\traffic_light.h</FilePath>
-            </File>
-            <File>
-              <FileName>timer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\smart_traffic\timer.c</FilePath>
-            </File>
-            <File>
-              <FileName>buzzer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\smart_traffic\buzzer.c</FilePath>
-            </File>
-            <File>
-              <FileName>display.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\smart_traffic\display.c</FilePath>
-            </File>
-            <File>
-              <FileName>traffic_light.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\smart_traffic\traffic_light.c</FilePath>
-            </File>
-            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\smart_traffic\main.c</FilePath>
-            </File>
-            <File>
-              <FileName>key_handler.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\smart_traffic\key_handler.c</FilePath>
-            </File>
-            <File>
-              <FileName>extension.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\smart_traffic\extension.c</FilePath>
-            </File>
-            <File>
-              <FileName>extension.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\smart_traffic\extension.h</FilePath>
-            </File>
-            <File>
-              <FileName>key_handler.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\smart_traffic\key_handler.h</FilePath>
             </File>
           </Files>
         </Group>
