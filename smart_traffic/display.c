@@ -44,6 +44,7 @@ void Display_Init(void)
 void Display_ShowTime(unsigned char nsTime, unsigned char ewTime)
 {
     unsigned char digit;
+    unsigned int i, j;
     
     // 显示南北方向时间（左两位）
     DISPLAY_SEL_A = 1;
@@ -51,11 +52,15 @@ void Display_ShowTime(unsigned char nsTime, unsigned char ewTime)
     if (digit > 9) digit = 9;
     DISPLAY_DATA_PORT = segmentTable[digit];
 //    Delay_ms(1);
+    for(i=0; i<100; i++); // 简单延时
+        for( j=0; j<100; j++);
     DISPLAY_SEL_A = 0;
     
     DISPLAY_SEL_B = 1;
     digit = nsTime % 10;
     DISPLAY_DATA_PORT = segmentTable[digit];
+        for(i=0; i<100; i++) // 简单延时
+        for(j=0; j<100; j++);
 //    Delay_ms(1);
     DISPLAY_SEL_B = 0;
     
@@ -64,6 +69,8 @@ void Display_ShowTime(unsigned char nsTime, unsigned char ewTime)
     digit = ewTime / 10;
     if (digit > 9) digit = 9;
     DISPLAY_DATA_PORT = segmentTable[digit];
+        for(i=0; i<100; i++) // 简单延时
+        for(j=0; j<100; j++);
 //    Delay_ms(1);
     DISPLAY_SEL_C = 0;
 }

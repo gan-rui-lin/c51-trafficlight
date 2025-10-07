@@ -51,7 +51,7 @@ sbit EW_GREEN_PIN    = P2^5;  // 东西绿灯
 
 /*-----------------------显示器硬件配置-----------------------*/
 // 数码管控制端口
-#define DISPLAY_DATA_PORT P0 // 数码管数据端口
+#define DISPLAY_DATA_PORT P1 // 数码管数据端口
 sbit DISPLAY_SEL_A = P2 ^ 6; // 数码管位选A
 sbit DISPLAY_SEL_B = P2 ^ 7; // 数码管位选B
 sbit DISPLAY_SEL_C = P3 ^ 0; // 数码管位选C
@@ -60,12 +60,12 @@ sbit DISPLAY_SEL_C = P3 ^ 0; // 数码管位选C
 // 操作员按键端口定义
 sbit KEY_SET_MODE = P3 ^ 2;  // 模式设置键（外部中断0）
 sbit KEY_CONFIRM = P3 ^ 3;   // 确认键
-sbit KEY_UP = P1 ^ 0;        // 增加键
-sbit KEY_DOWN = P1 ^ 1;      // 减少键
-sbit KEY_EMERGENCY = P1 ^ 2; // 紧急延时键
+sbit KEY_UP = P0 ^ 0;        // 增加键
+sbit KEY_DOWN = P0 ^ 1;      // 减少键
+sbit KEY_EMERGENCY = P0 ^ 2; // 紧急延时键
 
 /*-----------------------蜂鸣器配置---------------------------*/
-sbit BUZZER_PIN = P1 ^ 3; // 蜂鸣器控制端口
+sbit BUZZER_PIN = P0 ^ 3; // 蜂鸣器控制端口
 
 /*-----------------------扩展接口配置-------------------------*/
 // 预留蓝牙模块接口
