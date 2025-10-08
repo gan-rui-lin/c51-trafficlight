@@ -1,6 +1,6 @@
 /**************************************************
  * 文件名:    main.c
- * 作者:      GitHub Copilot  
+ * 作者:        
  * 日期:      2025-10-08
  * 描述:      智能交通灯系统 - 正式版本
  *           使用2个数码管显示南北和东西方向剩余时间
@@ -51,9 +51,9 @@ void System_Init(void)
     // ==========================================
     // 延时测试：通过数码管倒计时验证延时准确性
     // ==========================================
-    // 显示 "99" 提示即将开始测试
+    // // 显示 "99" 提示即将开始测试
     // Display_ShowTime(9, 9);
-    Delay_ms(500);
+    // Delay_ms(500);
     
     // // 测试3秒延时（数码管显示 3→2→1→0）
     // Test_DelayAccuracy(3);
@@ -61,17 +61,17 @@ void System_Init(void)
     // ==========================================
     // 硬件自检：所有灯亮1秒
     // ==========================================
-    NS_RED_PIN = 1;      NS_YELLOW_PIN = 1;    NS_GREEN_PIN = 1;
-    EW_RED_PIN = 1;      EW_YELLOW_PIN = 1;    EW_GREEN_PIN = 1;
-    DEBUG_1S_PIN = 1;    DEBUG_STATE_PIN = 1;
+    // NS_RED_PIN = 1;      NS_YELLOW_PIN = 1;    NS_GREEN_PIN = 1;
+    // EW_RED_PIN = 1;      EW_YELLOW_PIN = 1;    EW_GREEN_PIN = 1;
+    // DEBUG_1S_PIN = 1;    DEBUG_STATE_PIN = 1;
     
     // 使用标准延时函数
-    Delay_ms(1000);  // 精确延时1秒
+    // Delay_ms(1000);  // 精确延时1秒
     
     // 关闭所有灯，准备正常工作
-    NS_RED_PIN = 0;      NS_YELLOW_PIN = 0;    NS_GREEN_PIN = 0;
-    EW_RED_PIN = 0;      EW_YELLOW_PIN = 0;    EW_GREEN_PIN = 0;
-    DEBUG_1S_PIN = 0;    DEBUG_STATE_PIN = 0;
+    // NS_RED_PIN = 0;      NS_YELLOW_PIN = 0;    NS_GREEN_PIN = 0;
+    // EW_RED_PIN = 0;      EW_YELLOW_PIN = 0;    EW_GREEN_PIN = 0;
+    // DEBUG_1S_PIN = 0;    DEBUG_STATE_PIN = 0;
     
     // 初始化系统状态
     currentState = STATE_NS_GREEN_EW_RED;

@@ -1,6 +1,6 @@
 /**************************************************
  * 文件名:    timer.h
- * 作者:      GitHub Copilot
+ * 作者:
  * 日期:      2025-10-08
  * 描述:      定时器和延时函数模块头文件
  *           提供标准延时函数和时间测量功能
@@ -64,6 +64,6 @@ void Test_DelayAccuracy(unsigned char testSeconds);
 /*==============================================
  *                外部变量声明
  *==============================================*/
-extern volatile unsigned int systemTime_s;  // 系统运行时间（秒）
+extern volatile unsigned int systemTime_s; // 系统运行时间（秒）
 
 #endif /* __TIMER_H__ */
