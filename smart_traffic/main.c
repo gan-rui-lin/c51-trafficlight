@@ -103,41 +103,57 @@ void main(void)
         // ==========================================
         // 显示刷新处理（动态扫描）
         // ==========================================
-        // 根据当前交通灯状态计算两个方向的剩余时间
-        
-        switch(currentState) {
-            case STATE_NS_GREEN_EW_RED:     // 南北绿灯，东西红灯
-                nsTime = timeLeft;          // 南北：显示绿灯剩余时间
-                ewTime = timeLeft + stateTimeTable[STATE_NS_YELLOW_EW_RED];  // 东西：需要等待黄灯时间
-                break;
-                
-            case STATE_NS_YELLOW_EW_RED:    // 南北黄灯，东西红灯
-                nsTime = timeLeft;          // 南北：显示黄灯剩余时间
-                ewTime = timeLeft;          // 东西：红灯剩余时间等于黄灯时间
-                break;
-                
-            case STATE_NS_RED_EW_GREEN:     // 南北红灯，东西绿灯
-                nsTime = timeLeft + stateTimeTable[STATE_NS_RED_EW_YELLOW];  // 南北：需要等待黄灯时间
-                ewTime = timeLeft;          // 东西：显示绿灯剩余时间
-                break;
-                
-            case STATE_NS_RED_EW_YELLOW:    // 南北红灯，东西黄灯
-                nsTime = timeLeft;          // 南北：红灯剩余时间等于黄灯时间
-                ewTime = timeLeft;          // 东西：显示黄灯剩余时间
-                break;
-                
-            default:
-                nsTime = 0;
-                ewTime = 0;
-                break;
+        // 【解决竞争问题】：读取数据前临时关中断，防止数据不一致
+        {
+            unsigned char tempState;
+            unsigned char tempTimeLeft;
+            
+            // 快速读取当前状态（关中断保护）
+            EA = 0;  // 关中断
+            tempState = currentState;
+            tempTimeLeft = timeLeft;
+            EA = 1;  // 开中断
+            
+            // 根据当前交通灯状态计算两个方向的剩余时间
+            switch(tempState) {
+                case STATE_NS_GREEN_EW_RED:     // 南北绿灯，东西红灯
+                    nsTime = tempTimeLeft;      // 南北：显示绿灯剩余时间
+                    ewTime = tempTimeLeft + stateTimeTable[STATE_NS_YELLOW_EW_RED];  // 东西：需要等待黄灯时间
+                    break;
+                    
+                case STATE_NS_YELLOW_EW_RED:    // 南北黄灯，东西红灯
+                    nsTime = tempTimeLeft;      // 南北：显示黄灯剩余时间
+                    ewTime = tempTimeLeft;      // 东西：红灯剩余时间等于黄灯时间
+                    break;
+                    
+                case STATE_NS_RED_EW_GREEN:     // 南北红灯，东西绿灯
+                    nsTime = tempTimeLeft + stateTimeTable[STATE_NS_RED_EW_YELLOW];  // 南北：需要等待黄灯时间
+                    ewTime = tempTimeLeft;      // 东西：显示绿灯剩余时间
+                    break;
+                    
+                case STATE_NS_RED_EW_YELLOW:    // 南北红灯，东西黄灯
+                    nsTime = tempTimeLeft;      // 南北：红灯剩余时间等于黄灯时间
+                    ewTime = tempTimeLeft;      // 东西：显示黄灯剩余时间
+                    break;
+                    
+                default:
+                    nsTime = 0;
+                    ewTime = 0;
+                    break;
+            }
+            
+            // 限制显示范围 (0-9)，因为只使用2个数码管
+            if (nsTime > 9) nsTime = 9;
+            if (ewTime > 9) ewTime = 9;
         }
         
-        // 限制显示范围 (0-9)，因为只使用2个数码管
-        if (nsTime > 9) nsTime = 9;
-        if (ewTime > 9) ewTime = 9;
-        
-        // 调用显示函数更新显示（动态扫描）
-        Display_ShowTime(nsTime, ewTime);
+        // 【解决闪烁问题】：连续刷新显示多次，增加稳定性
+        {
+            unsigned char refresh;
+            for(refresh = 0; refresh < 5; refresh++) {
+                Display_ShowTime(nsTime, ewTime);
+            }
+        }
         
         // ==========================================
         // 未来扩展功能

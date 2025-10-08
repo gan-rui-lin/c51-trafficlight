@@ -133,7 +133,7 @@ void Test_DelayAccuracy(unsigned char testSeconds)
         // 延时1秒（通过多次刷新显示保持稳定）
         {
             unsigned char i;
-            for(i = 0; i < 100; i++) {
+            for(i = 0; i < 100 / 3; i++) {
                 Display_ShowTime(count, count);
                 Delay_ms(10);  // 每10ms刷新一次显示
             }
