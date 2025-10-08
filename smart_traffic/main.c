@@ -10,6 +10,7 @@
 #include "config.h"
 #include "traffic_light.h"
 #include "display.h"
+#include "timer.h"
 
 extern unsigned char currentState;
 extern unsigned char timeLeft;
@@ -45,15 +46,8 @@ void System_Init(void)
     EW_RED_PIN = 1;      EW_YELLOW_PIN = 1;    EW_GREEN_PIN = 1;
     DEBUG_1S_PIN = 1;    DEBUG_STATE_PIN = 1;
     
-    // 简单延时（自检延时）
-    {
-        unsigned int i, j;
-        for(i = 0; i < 1000; i++) {
-            for(j = 0; j < 100; j++) {
-                // 延时约1秒
-            }
-        }
-    }
+    // 使用标准的1秒延时函数（自检延时）
+    Delay_1s();
     
     // 关闭所有灯，准备正常工作
     NS_RED_PIN = 0;      NS_YELLOW_PIN = 0;    NS_GREEN_PIN = 0;
