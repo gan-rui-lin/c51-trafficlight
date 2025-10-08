@@ -82,7 +82,8 @@ void Display_ShowTime(unsigned char nsTime, unsigned char ewTime)
     DISPLAY_DATA_PORT = segmentTable[nsTime];  // 送入段码
     
     // 保持时间：约1-2ms（根据晶振频率调整）
-    for(i=0; i<6; i++)
+    // 【关键】两个数码管的延时必须相同，否则会出现亮度不均或重影
+    for(i=0; i<30; i++)
         for(j=0; j<10; j++);
 
     // ========== 显示第1位：东西方向时间 ==========
@@ -93,7 +94,7 @@ void Display_ShowTime(unsigned char nsTime, unsigned char ewTime)
     
     DISPLAY_DATA_PORT = segmentTable[ewTime];  // 送入段码
     
-    // 保持时间：约1-2ms
+    // 保持时间：与第一位相同
     for(i=0; i<30; i++)
         for(j=0; j<10; j++);
 }
