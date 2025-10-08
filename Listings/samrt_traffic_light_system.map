@@ -1,4 +1,4 @@
-LX51 LINKER/LOCATER V4.66.100.0                                                         10/08/2025  18:25:43  PAGE 1
+LX51 LINKER/LOCATER V4.66.100.0                                                         10/08/2025  18:51:37  PAGE 1
 
 
 LX51 LINKER/LOCATER V4.66.100.0, INVOKED BY:
@@ -32,12 +32,12 @@ ACTIVE MEMORY CLASSES OF MODULE:  .\Objects\samrt_traffic_light_system (?C_START
 
 BASE        START       END         USED      MEMORY CLASS
 ==========================================================
-C:000000H   C:000000H   C:001FFFH   00040BH   CODE
+C:000000H   C:000000H   C:001FFFH   000422H   CODE
 C:000000H   C:000000H   C:001FFFH             CONST
 C:000000H   C:000000H   C:001FFFH             ECODE
 C:000000H   C:000000H   C:001FFFH             HCONST
 I:000000H   I:000000H   I:0000FFH   000001H   IDATA
-I:000000H   I:000000H   I:00007FH   000035H   DATA
+I:000000H   I:000000H   I:00007FH   000037H   DATA
 
 
 MEMORY MAP OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
@@ -52,35 +52,37 @@ START     STOP      LENGTH    ALIGN  RELOC    MEMORY CLASS   SEGMENT NAME
 000022H   00002BH   00000AH   BYTE   UNIT     DATA           ?DT?DISPLAY
 00002CH   00002FH   000004H   BYTE   UNIT     DATA           _DATA_GROUP_
 000030H   000031H   000002H   BYTE   UNIT     DATA           ?DT?MAIN
-000032H   000033H   000002H   BYTE   UNIT     DATA           ?DT?TIMER
-000034H   000034H   000001H   BYTE   UNIT     DATA           ?DT?_DELAY_S?TIMER
-000035H   000035H   000001H   BYTE   UNIT     IDATA          ?STACK
+000032H   000033H   000002H   BYTE   UNIT     DATA           ?DT?_TEST_DELAYACCURACY?TIMER
+000034H   000035H   000002H   BYTE   UNIT     DATA           ?DT?TIMER
+000036H   000036H   000001H   BYTE   UNIT     DATA           ?DT?_DELAY_S?TIMER
+000037H   000037H   000001H   BYTE   UNIT     IDATA          ?STACK
 
 * * * * * * * * * * *   C O D E   M E M O R Y   * * * * * * * * * * * * *
 000000H   000002H   000003H   ---    OFFS..   CODE           ?CO??C_STARTUP?0
 000003H   00000AH   000008H   BYTE   INBLOCK  CODE           ?PR?DISPLAY_INIT?DISPLAY
 00000BH   00000CH   000002H   BYTE   OFFS..   CODE           ?TRAFFIC_LIGHT?0000B
-00000DH   00007EH   000072H   BYTE   INBLOCK  CODE           ?PR?TIMER0_ISR?TRAFFIC_LIGHT
-00007FH   0000E7H   000069H   BYTE   INBLOCK  CODE           ?PR?SYSTEM_INIT?MAIN
-0000E8H   00014CH   000065H   BYTE   INBLOCK  CODE           ?PR?_DISPLAY_SHOWTIME?DISPLAY
-00014DH   0001B1H   000065H   BYTE   INBLOCK  CODE           ?PR?MAIN?MAIN
+00000DH   000090H   000084H   BYTE   INBLOCK  CODE           ?PR?TIMER0_ISR?TRAFFIC_LIGHT
+000091H   0000F5H   000065H   BYTE   INBLOCK  CODE           ?PR?_DISPLAY_SHOWTIME?DISPLAY
+0000F6H   000154H   00005FH   BYTE   INBLOCK  CODE           ?PR?SYSTEM_INIT?MAIN
+000155H   0001B1H   00005DH   BYTE   INBLOCK  CODE           ?PR?MAIN?MAIN
 0001B2H   0001EFH   00003EH   BYTE   INBLOCK  CODE           ?PR?_TEST_DELAYACCURACY?TIMER
 0001F0H   000222H   000033H   BYTE   INBLOCK  CODE           ?PR?_SETTRAFFICLIGHTS?TRAFFIC_LIGHT
+LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:51:37  PAGE 2
+
+
 000223H   000243H   000021H   BYTE   INBLOCK  CODE           ?PR?HANDLETRAFFICLIGHTFLASH?TRAFFIC_LIGHT
-LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:25:43  PAGE 2
-
-
 000244H   000263H   000020H   BYTE   INBLOCK  CODE           ?PR?TIMER0_INIT?TRAFFIC_LIGHT
 000264H   00027FH   00001CH   BYTE   INBLOCK  CODE           ?PR?SWITCHTONEXTSTATE?TRAFFIC_LIGHT
 000280H   000297H   000018H   BYTE   INBLOCK  CODE           ?PR?_DELAY_MS?TIMER
-000298H   0002ABH   000014H   BYTE   INBLOCK  CODE           ?PR?_DELAY_S?TIMER
-0002ACH   0002BAH   00000FH   BYTE   INBLOCK  CODE           ?PR?_DELAY_US?TIMER
-0002BBH   0002C5H   00000BH   BYTE   INBLOCK  CODE           ?PR?DELAY_1MS?TIMER
-0002C6H   0002CBH   000006H   BYTE   INBLOCK  CODE           ?PR?RESET_SYSTEMTIME?TIMER
-0002CCH   0002D0H   000005H   BYTE   INBLOCK  CODE           ?PR?GET_SYSTEMTIME_S?TIMER
-0002D1H   00035CH   00008CH   BYTE   UNIT     CODE           ?C_C51STARTUP
-00035DH   0003B5H   000059H   BYTE   UNIT     CODE           ?C_INITSEG
-0003B6H   00040AH   000055H   BYTE   UNIT     CODE           ?C?LIB_CODE
+000298H   0002AEH   000017H   BYTE   INBLOCK  CODE           ?PR?_DISPLAY_SHOWTIME_1S?DISPLAY
+0002AFH   0002C2H   000014H   BYTE   INBLOCK  CODE           ?PR?_DELAY_S?TIMER
+0002C3H   0002D1H   00000FH   BYTE   INBLOCK  CODE           ?PR?_DELAY_US?TIMER
+0002D2H   0002DCH   00000BH   BYTE   INBLOCK  CODE           ?PR?DELAY_1MS?TIMER
+0002DDH   0002E2H   000006H   BYTE   INBLOCK  CODE           ?PR?RESET_SYSTEMTIME?TIMER
+0002E3H   0002E7H   000005H   BYTE   INBLOCK  CODE           ?PR?GET_SYSTEMTIME_S?TIMER
+0002E8H   000373H   00008CH   BYTE   UNIT     CODE           ?C_C51STARTUP
+000374H   0003CCH   000059H   BYTE   UNIT     CODE           ?C_INITSEG
+0003CDH   000421H   000055H   BYTE   UNIT     CODE           ?C?LIB_CODE
 
 
 
@@ -94,40 +96,35 @@ FUNCTION/MODULE                             BIT_GROUP   DATA_GROUP
   +--> MAIN/MAIN
   +--> ?C_INITSEG
 
-MAIN/MAIN                                  ----- -----  002CH 002DH
+MAIN/MAIN                                  ----- -----  002CH 002FH
   +--> SYSTEM_INIT/MAIN
-  +--> _DISPLAY_SHOWTIME/DISPLAY
 
 SYSTEM_INIT/MAIN                           ----- -----  ----- -----
   +--> DISPLAY_INIT/DISPLAY
-  +--> _DISPLAY_SHOWTIME/DISPLAY
   +--> _DELAY_MS/TIMER
-  +--> _TEST_DELAYACCURACY/TIMER
   +--> _SETTRAFFICLIGHTS/TRAFFIC_LIGHT
   +--> TIMER0_INIT/TRAFFIC_LIGHT
+  +--> _DISPLAY_SHOWTIME/DISPLAY
 
 DISPLAY_INIT/DISPLAY                       ----- -----  ----- -----
-
-_DISPLAY_SHOWTIME/DISPLAY                  ----- -----  ----- -----
 
 _DELAY_MS/TIMER                            ----- -----  ----- -----
   +--> DELAY_1MS/TIMER
 
 DELAY_1MS/TIMER                            ----- -----  ----- -----
 
-_TEST_DELAYACCURACY/TIMER                  ----- -----  002EH 002FH
-  +--> _DISPLAY_SHOWTIME/DISPLAY
-  +--> _DELAY_MS/TIMER
-
 _SETTRAFFICLIGHTS/TRAFFIC_LIGHT            ----- -----  ----- -----
 
 TIMER0_INIT/TRAFFIC_LIGHT                  ----- -----  ----- -----
+
+_DISPLAY_SHOWTIME/DISPLAY                  ----- -----  ----- -----
 
 ?C_INITSEG                                 ----- -----  ----- -----
 
 *** NEW ROOT *****************************
 
 TIMER0_ISR/TRAFFIC_LIGHT                   ----- -----  ----- -----
+  +--> _DISPLAY_SHOWTIME/DISPLAY
   +--> SWITCHTONEXTSTATE/TRAFFIC_LIGHT
 
 SWITCHTONEXTSTATE/TRAFFIC_LIGHT            ----- -----  ----- -----
@@ -135,23 +132,24 @@ SWITCHTONEXTSTATE/TRAFFIC_LIGHT            ----- -----  ----- -----
 
 
 
-LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:25:43  PAGE 3
-
-
 PUBLIC SYMBOLS OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
+
+
+LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:51:37  PAGE 3
 
 
       VALUE       CLASS    TYPE      PUBLIC SYMBOL NAME
       =================================================
       00000000H   NUMBER   ---       ?C?CODESEG
-      010003B6H   CODE     ---       ?C?UIDIV
+      010003CDH   CODE     ---       ?C?UIDIV
       00000000H   NUMBER   ---       ?C?XDATASEG
-      01000318H   CODE     ---       ?C_START
+      0100032FH   CODE     ---       ?C_START
       01000000H   CODE     ---       ?C_STARTUP
       01000280H   CODE     ---       _Delay_ms
-      01000298H   CODE     ---       _Delay_s
-      010002ACH   CODE     ---       _Delay_us
-      010000E8H   CODE     ---       _Display_ShowTime
+      010002AFH   CODE     ---       _Delay_s
+      010002C3H   CODE     ---       _Delay_us
+      01000091H   CODE     ---       _Display_ShowTime
+      01000298H   CODE     ---       _Display_ShowTime_1s
       010001F0H   CODE     ---       _SetTrafficLights
       010001B2H   CODE     ---       _Test_DelayAccuracy
 *SFR* 000000D0H.6 DATA     BIT       AC
@@ -180,6 +178,7 @@ PUBLIC SYMBOLS OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
 *SFR* 000000A0H.3 DATA     BIT       EW_RED_PIN
 *SFR* 000000A0H.4 DATA     BIT       EW_YELLOW_PIN
       00000016H   DATA     BYTE      ewCurrentState
+      00000030H   DATA     BYTE      ewTime
       00000021H   DATA     BYTE      ewTimeLeft
 *SFR* 000000A8H.0 DATA     BIT       EX0
 *SFR* 000000A8H.2 DATA     BIT       EX1
@@ -187,7 +186,7 @@ PUBLIC SYMBOLS OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
 *SFR* 000000C8H.6 DATA     BIT       EXF2
 *SFR* 000000D0H.5 DATA     BIT       F0
       0000000FH   DATA     WORD      flashCount
-      010002CCH   CODE     ---       Get_SystemTime_s
+      010002E3H   CODE     ---       Get_SystemTime_s
       01000223H   CODE     ---       HandleTrafficLightFlash
 *SFR* 000000A8H   DATA     BYTE      IE
 *SFR* 00000088H.1 DATA     BIT       IE0
@@ -203,16 +202,17 @@ PUBLIC SYMBOLS OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
 *SFR* 000000B0H.3 DATA     BIT       KEY_CONFIRM
 *SFR* 00000080H.1 DATA     BIT       KEY_DOWN
 *SFR* 00000080H.2 DATA     BIT       KEY_EMERGENCY
-LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:25:43  PAGE 4
-
-
 *SFR* 000000B0H.2 DATA     BIT       KEY_SET_MODE
+LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:51:37  PAGE 4
+
+
 *SFR* 00000080H.0 DATA     BIT       KEY_UP
-      0100014DH   CODE     ---       main
+      01000155H   CODE     ---       main
 *SFR* 000000A0H.2 DATA     BIT       NS_GREEN_PIN
 *SFR* 000000A0H.0 DATA     BIT       NS_RED_PIN
 *SFR* 000000A0H.1 DATA     BIT       NS_YELLOW_PIN
       00000017H   DATA     BYTE      nsCurrentState
+      00000031H   DATA     BYTE      nsTime
       00000008H   DATA     BYTE      nsTimeLeft
 *SFR* 000000D0H.2 DATA     BIT       OV
 *SFR* 000000D0H.0 DATA     BIT       P
@@ -234,7 +234,7 @@ PUBLIC SYMBOLS OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
 *SFR* 000000C8H.5 DATA     BIT       RCLK
 *SFR* 000000B0H.7 DATA     BIT       RD
 *SFR* 00000098H.4 DATA     BIT       REN
-      010002C6H   CODE     ---       Reset_SystemTime
+      010002DDH   CODE     ---       Reset_SystemTime
 *SFR* 00000098H.0 DATA     BIT       RI
 *SFR* 000000D0H.3 DATA     BIT       RS0
 *SFR* 000000D0H.4 DATA     BIT       RS1
@@ -247,8 +247,8 @@ PUBLIC SYMBOLS OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
 *SFR* 00000081H   DATA     BYTE      SP
       00000011H   DATA     ---       stateTimeTable
       01000264H   CODE     ---       SwitchToNextState
-      0100007FH   CODE     ---       System_Init
-      00000032H   DATA     WORD      systemTime_s
+      010000F6H   CODE     ---       System_Init
+      00000034H   DATA     WORD      systemTime_s
 *SFR* 000000B0H.4 DATA     BIT       T0
 *SFR* 000000B0H.5 DATA     BIT       T1
 *SFR* 00000090H.0 DATA     BIT       T2
@@ -271,7 +271,7 @@ PUBLIC SYMBOLS OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
 *SFR* 0000008AH   DATA     BYTE      TL0
 *SFR* 0000008BH   DATA     BYTE      TL1
 *SFR* 000000CCH   DATA     BYTE      TL2
-LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:25:43  PAGE 5
+LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:51:37  PAGE 5
 
 
 *SFR* 00000089H   DATA     BYTE      TMOD
@@ -296,7 +296,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
       00000000H   SYMBOL    NUMBER   ---       IBPSTACK
       00000100H   SYMBOL    NUMBER   ---       IBPSTACKTOP
       00000080H   SYMBOL    NUMBER   ---       IDATALEN
-      010002D4H   SYMBOL    CODE     ---       IDATALOOP
+      010002EBH   SYMBOL    CODE     ---       IDATALOOP
       00000000H   SYMBOL    NUMBER   ---       PBPSTACK
       00000100H   SYMBOL    NUMBER   ---       PBPSTACKTOP
       00000000H   SYMBOL    NUMBER   ---       PDATALEN
@@ -305,21 +305,22 @@ SYMBOL TABLE OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
       00000000H   SYMBOL    NUMBER   ---       PPAGEENABLE
       000000A0H   SYMBOL    DATA     ---       PPAGE_SFR
       00000081H   SYMBOL    DATA     ---       SP
-      010002D1H   SYMBOL    CODE     ---       STARTUP1
+      010002E8H   SYMBOL    CODE     ---       STARTUP1
       00000000H   SYMBOL    NUMBER   ---       XBPSTACK
       00000000H   SYMBOL    NUMBER   ---       XBPSTACKTOP
       00000000H   SYMBOL    NUMBER   ---       XDATALEN
       00000000H   SYMBOL    NUMBER   ---       XDATASTART
       01000000H   LINE      CODE     ---       #126
-      010002D1H   LINE      CODE     ---       #133
-      010002D3H   LINE      CODE     ---       #134
-      010002D4H   LINE      CODE     ---       #135
-      010002D5H   LINE      CODE     ---       #136
-      010002D7H   LINE      CODE     ---       #185
-      010002DAH   LINE      CODE     ---       #196
+      010002E8H   LINE      CODE     ---       #133
+      010002EAH   LINE      CODE     ---       #134
+      010002EBH   LINE      CODE     ---       #135
+      010002ECH   LINE      CODE     ---       #136
+      010002EEH   LINE      CODE     ---       #185
+      010002F1H   LINE      CODE     ---       #196
 
       ---         MODULE    ---      ---       DISPLAY
-      010000E8H   PUBLIC    CODE     ---       _Display_ShowTime
+      01000298H   PUBLIC    CODE     ---       _Display_ShowTime_1s
+      01000091H   PUBLIC    CODE     ---       _Display_ShowTime
       01000003H   PUBLIC    CODE     ---       Display_Init
       000000A0H.6 SFRSYM    DATA     BIT       DISPLAY_SEL_A
       00000080H   SFRSYM    DATA     BYTE      P0
@@ -338,10 +339,10 @@ SYMBOL TABLE OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
       000000B0H.6 SFRSYM    DATA     BIT       DEBUG_1S_PIN
       000000C8H.6 SFRSYM    DATA     BIT       EXF2
       000000B0H.7 SFRSYM    DATA     BIT       RD
+LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:51:37  PAGE 6
+
+
       000000A8H.4 SFRSYM    DATA     BIT       ES
-LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:25:43  PAGE 6
-
-
       000000B8H   SFRSYM    DATA     BYTE      IP
       00000098H.0 SFRSYM    DATA     BIT       RI
       000000B0H.2 SFRSYM    DATA     BIT       INT0
@@ -406,10 +407,10 @@ SYMBOL TABLE OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
       000000B8H.3 SFRSYM    DATA     BIT       PT1
       000000D0H.3 SFRSYM    DATA     BIT       RS0
       000000B8H.5 SFRSYM    DATA     BIT       PT2
+LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:51:37  PAGE 7
+
+
       00000088H.4 SFRSYM    DATA     BIT       TR0
-LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:25:43  PAGE 7
-
-
       000000D0H.4 SFRSYM    DATA     BIT       RS1
       00000088H.6 SFRSYM    DATA     BIT       TR1
       000000C8H.2 SFRSYM    DATA     BIT       TR2
@@ -438,35 +439,55 @@ SYMBOL TABLE OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
       0100000AH   LINE      CODE     ---       #54
       ---         BLOCKEND  ---      ---       LVL=0
 
-      010000E8H   BLOCK     CODE     ---       LVL=0
+      01000091H   BLOCK     CODE     ---       LVL=0
       00000007H   SYMBOL    DATA     BYTE      nsTime
       00000005H   SYMBOL    DATA     BYTE      ewTime
-      010000E8H   BLOCK     CODE     NEAR LAB  LVL=1
+      01000091H   BLOCK     CODE     NEAR LAB  LVL=1
       00000006H   SYMBOL    DATA     WORD      i
       00000002H   SYMBOL    DATA     WORD      j
       ---         BLOCKEND  ---      ---       LVL=1
-      010000E8H   LINE      CODE     ---       #65
-      010000E8H   LINE      CODE     ---       #66
-      010000E8H   LINE      CODE     ---       #70
-      010000F0H   LINE      CODE     ---       #71
-      010000F8H   LINE      CODE     ---       #75
-      010000FBH   LINE      CODE     ---       #76
-      010000FDH   LINE      CODE     ---       #77
-      010000FFH   LINE      CODE     ---       #79
-      01000106H   LINE      CODE     ---       #81
-      01000109H   LINE      CODE     ---       #82
-      01000122H   LINE      CODE     ---       #86
-      01000125H   LINE      CODE     ---       #87
-      01000127H   LINE      CODE     ---       #88
-      01000129H   LINE      CODE     ---       #90
-      01000130H   LINE      CODE     ---       #92
-      01000133H   LINE      CODE     ---       #93
-      0100014CH   LINE      CODE     ---       #94
+      01000091H   LINE      CODE     ---       #68
+      01000091H   LINE      CODE     ---       #69
+      01000091H   LINE      CODE     ---       #73
+      01000099H   LINE      CODE     ---       #74
+      010000A1H   LINE      CODE     ---       #78
+      010000A4H   LINE      CODE     ---       #79
+      010000A6H   LINE      CODE     ---       #80
+      010000A8H   LINE      CODE     ---       #82
+      010000AFH   LINE      CODE     ---       #85
+      010000B2H   LINE      CODE     ---       #86
+      010000CBH   LINE      CODE     ---       #90
+      010000CEH   LINE      CODE     ---       #91
+      010000D0H   LINE      CODE     ---       #92
+      010000D2H   LINE      CODE     ---       #94
+      010000D9H   LINE      CODE     ---       #97
+      010000DCH   LINE      CODE     ---       #98
+      010000F5H   LINE      CODE     ---       #99
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      01000298H   BLOCK     CODE     ---       LVL=0
+      00000001H   SYMBOL    DATA     BYTE      nsTime
+      00000004H   SYMBOL    DATA     BYTE      ewTime
+      0100029CH   BLOCK     CODE     NEAR LAB  LVL=1
+      00000082H   SYMBOL    DATA     WORD      refresh_count
+      ---         BLOCKEND  ---      ---       LVL=1
+      01000298H   LINE      CODE     ---       #112
+      0100029CH   LINE      CODE     ---       #113
+      0100029CH   LINE      CODE     ---       #117
+      0100029FH   LINE      CODE     ---       #118
+LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:51:37  PAGE 8
+
+
+      0100029FH   LINE      CODE     ---       #119
+      010002A5H   LINE      CODE     ---       #120
+      010002AEH   LINE      CODE     ---       #121
       ---         BLOCKEND  ---      ---       LVL=0
 
       ---         MODULE    ---      ---       MAIN
-      0100014DH   PUBLIC    CODE     ---       main
-      0100007FH   PUBLIC    CODE     ---       System_Init
+      00000031H   PUBLIC    DATA     BYTE      nsTime
+      00000030H   PUBLIC    DATA     BYTE      ewTime
+      01000155H   PUBLIC    CODE     ---       main
+      010000F6H   PUBLIC    CODE     ---       System_Init
       000000A0H.6 SFRSYM    DATA     BIT       DISPLAY_SEL_A
       00000080H   SFRSYM    DATA     BYTE      P0
       000000A0H.7 SFRSYM    DATA     BIT       DISPLAY_SEL_B
@@ -475,9 +496,6 @@ SYMBOL TABLE OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
       000000B0H   SFRSYM    DATA     BYTE      P3
       00000080H.1 SFRSYM    DATA     BIT       KEY_DOWN
       000000B0H.4 SFRSYM    DATA     BIT       T0
-LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:25:43  PAGE 8
-
-
       000000D0H.6 SFRSYM    DATA     BIT       AC
       000000B0H.5 SFRSYM    DATA     BIT       T1
       00000090H.0 SFRSYM    DATA     BIT       T2
@@ -525,6 +543,9 @@ SYMBOL TABLE OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
       000000B0H.5 SFRSYM    DATA     BIT       BLUETOOTH_TX
       000000E0H   SFRSYM    DATA     BYTE      ACC
       000000A8H.1 SFRSYM    DATA     BIT       ET0
+LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:51:37  PAGE 9
+
+
       000000B0H.6 SFRSYM    DATA     BIT       IR_RECEIVE_PIN
       000000A8H.3 SFRSYM    DATA     BIT       ET1
       00000088H.5 SFRSYM    DATA     BIT       TF0
@@ -543,9 +564,6 @@ SYMBOL TABLE OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
       000000D0H.0 SFRSYM    DATA     BIT       P
       00000098H.7 SFRSYM    DATA     BIT       SM0
       0000008AH   SFRSYM    DATA     BYTE      TL0
-LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:25:43  PAGE 9
-
-
       00000098H.6 SFRSYM    DATA     BIT       SM1
       0000008BH   SFRSYM    DATA     BYTE      TL1
       00000098H.5 SFRSYM    DATA     BIT       SM2
@@ -573,85 +591,80 @@ SYMBOL TABLE OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
       000000B0H.1 SFRSYM    DATA     BIT       TXD
       000000D0H.5 SFRSYM    DATA     BIT       F0
       000000D0H   SFRSYM    DATA     BYTE      PSW
-      00000030H   SYMBOL    DATA     BYTE      ewTime
-      00000031H   SYMBOL    DATA     BYTE      nsTime
 
-      0100007FH   BLOCK     CODE     ---       LVL=0
-      0100007FH   LINE      CODE     ---       #37
-      0100007FH   LINE      CODE     ---       #38
-      0100007FH   LINE      CODE     ---       #40
-      01000083H   LINE      CODE     ---       #41
-      01000089H   LINE      CODE     ---       #42
-      0100008FH   LINE      CODE     ---       #45
-      01000091H   LINE      CODE     ---       #51
-      01000097H   LINE      CODE     ---       #52
-      0100009DH   LINE      CODE     ---       #55
-      010000A1H   LINE      CODE     ---       #60
-      010000A7H   LINE      CODE     ---       #61
-      010000ADH   LINE      CODE     ---       #62
-      010000B1H   LINE      CODE     ---       #65
-      010000B7H   LINE      CODE     ---       #68
-      010000BDH   LINE      CODE     ---       #69
-      010000C3H   LINE      CODE     ---       #70
-      010000C7H   LINE      CODE     ---       #73
-      010000CAH   LINE      CODE     ---       #74
-      010000D3H   LINE      CODE     ---       #75
-      010000D6H   LINE      CODE     ---       #78
-      010000DAH   LINE      CODE     ---       #81
-      010000DCH   LINE      CODE     ---       #84
-      010000E2H   LINE      CODE     ---       #85
+      010000F6H   BLOCK     CODE     ---       LVL=0
+      010000F6H   LINE      CODE     ---       #37
+      010000F6H   LINE      CODE     ---       #38
+      010000F6H   LINE      CODE     ---       #40
+      010000FAH   LINE      CODE     ---       #41
+      01000100H   LINE      CODE     ---       #42
+      01000106H   LINE      CODE     ---       #45
+      01000108H   LINE      CODE     ---       #56
+      0100010EH   LINE      CODE     ---       #64
+      01000114H   LINE      CODE     ---       #65
+      0100011AH   LINE      CODE     ---       #66
+      0100011EH   LINE      CODE     ---       #69
+      01000124H   LINE      CODE     ---       #72
+      0100012AH   LINE      CODE     ---       #73
+      01000130H   LINE      CODE     ---       #74
+      01000134H   LINE      CODE     ---       #77
+      01000137H   LINE      CODE     ---       #78
+      01000140H   LINE      CODE     ---       #79
+      01000143H   LINE      CODE     ---       #82
+LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:51:37  PAGE 10
+
+
+      01000147H   LINE      CODE     ---       #85
+      01000149H   LINE      CODE     ---       #88
+      0100014FH   LINE      CODE     ---       #89
       ---         BLOCKEND  ---      ---       LVL=0
 
-      0100014DH   BLOCK     CODE     ---       LVL=0
-      0100014FH   BLOCK     CODE     NEAR LAB  LVL=1
+      01000155H   BLOCK     CODE     ---       LVL=0
+      01000157H   BLOCK     CODE     NEAR LAB  LVL=1
       0000002CH   SYMBOL    DATA     BYTE      tempState
       0000002DH   SYMBOL    DATA     BYTE      tempTimeLeft
-      0000002CH   SYMBOL    DATA     BYTE      refresh
+      0000002EH   SYMBOL    DATA     BYTE      newNsTime
+      0000002FH   SYMBOL    DATA     BYTE      newEwTime
       ---         BLOCKEND  ---      ---       LVL=1
-      0100019EH   BLOCK     CODE     NEAR LAB  LVL=1
-      0000002CH   SYMBOL    DATA     BYTE      refresh
-      ---         BLOCKEND  ---      ---       LVL=1
-LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:25:43  PAGE 10
-
-
-      0100014DH   LINE      CODE     ---       #96
-      0100014DH   LINE      CODE     ---       #97
-      0100014DH   LINE      CODE     ---       #99
-      0100014FH   LINE      CODE     ---       #102
-      0100014FH   LINE      CODE     ---       #107
-      0100014FH   LINE      CODE     ---       #112
-      01000151H   LINE      CODE     ---       #113
-      01000154H   LINE      CODE     ---       #114
-      01000157H   LINE      CODE     ---       #115
+      01000155H   LINE      CODE     ---       #100
+      01000155H   LINE      CODE     ---       #101
+      01000155H   LINE      CODE     ---       #103
+      01000157H   LINE      CODE     ---       #107
+      01000157H   LINE      CODE     ---       #111
+      01000157H   LINE      CODE     ---       #117
       01000159H   LINE      CODE     ---       #118
-      01000168H   LINE      CODE     ---       #119
-      01000168H   LINE      CODE     ---       #120
-      0100016BH   LINE      CODE     ---       #121
-      01000171H   LINE      CODE     ---       #122
-      01000173H   LINE      CODE     ---       #124
-      01000173H   LINE      CODE     ---       #125
-      01000173H   LINE      CODE     ---       #126
-      01000173H   LINE      CODE     ---       #127
-      01000175H   LINE      CODE     ---       #129
-      01000175H   LINE      CODE     ---       #130
-      0100017BH   LINE      CODE     ---       #131
+      0100015CH   LINE      CODE     ---       #119
+      0100015FH   LINE      CODE     ---       #120
+      01000161H   LINE      CODE     ---       #125
+      01000170H   LINE      CODE     ---       #126
+      01000170H   LINE      CODE     ---       #127
+      01000173H   LINE      CODE     ---       #129
+      01000179H   LINE      CODE     ---       #130
       0100017BH   LINE      CODE     ---       #132
-      0100017DH   LINE      CODE     ---       #134
-      0100017DH   LINE      CODE     ---       #135
-      01000180H   LINE      CODE     ---       #136
-      01000183H   LINE      CODE     ---       #137
-      01000185H   LINE      CODE     ---       #139
-      01000185H   LINE      CODE     ---       #140
-      01000188H   LINE      CODE     ---       #141
-      0100018AH   LINE      CODE     ---       #142
-      0100018AH   LINE      CODE     ---       #143
-      0100018AH   LINE      CODE     ---       #146
-      01000194H   LINE      CODE     ---       #147
-      0100019EH   LINE      CODE     ---       #148
-      0100019EH   LINE      CODE     ---       #151
-      0100019EH   LINE      CODE     ---       #153
-      010001A8H   LINE      CODE     ---       #154
-      010001AEH   LINE      CODE     ---       #155
+      0100017BH   LINE      CODE     ---       #133
+      0100017BH   LINE      CODE     ---       #134
+      0100017BH   LINE      CODE     ---       #135
+      0100017DH   LINE      CODE     ---       #137
+      0100017DH   LINE      CODE     ---       #139
+      01000183H   LINE      CODE     ---       #140
+      01000183H   LINE      CODE     ---       #141
+      01000185H   LINE      CODE     ---       #143
+      01000185H   LINE      CODE     ---       #144
+      01000188H   LINE      CODE     ---       #145
+      0100018BH   LINE      CODE     ---       #146
+      0100018DH   LINE      CODE     ---       #148
+      0100018DH   LINE      CODE     ---       #149
+      01000190H   LINE      CODE     ---       #150
+      01000192H   LINE      CODE     ---       #151
+      01000192H   LINE      CODE     ---       #152
+      01000192H   LINE      CODE     ---       #155
+      0100019CH   LINE      CODE     ---       #156
+      010001A6H   LINE      CODE     ---       #159
+      010001A8H   LINE      CODE     ---       #160
+      010001ABH   LINE      CODE     ---       #161
+      010001AEH   LINE      CODE     ---       #162
+      010001B0H   LINE      CODE     ---       #163
+      010001B0H   LINE      CODE     ---       #177
       ---         BLOCKEND  ---      ---       LVL=0
 
       ---         MODULE    ---      ---       TRAFFIC_LIGHT
@@ -666,6 +679,9 @@ SYMBOL TABLE OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
       0000000BH   PUBLIC    DATA     BYTE      currentState
       00000008H   PUBLIC    DATA     BYTE      nsTimeLeft
       0100000DH   PUBLIC    CODE     ---       Timer0_ISR
+LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:51:37  PAGE 11
+
+
       01000244H   PUBLIC    CODE     ---       Timer0_Init
       01000264H   PUBLIC    CODE     ---       SwitchToNextState
       01000223H   PUBLIC    CODE     ---       HandleTrafficLightFlash
@@ -679,9 +695,6 @@ SYMBOL TABLE OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
       00000080H.1 SFRSYM    DATA     BIT       KEY_DOWN
       000000B0H.4 SFRSYM    DATA     BIT       T0
       000000D0H.6 SFRSYM    DATA     BIT       AC
-LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:25:43  PAGE 11
-
-
       000000B0H.5 SFRSYM    DATA     BIT       T1
       00000090H.0 SFRSYM    DATA     BIT       T2
       000000A8H.7 SFRSYM    DATA     BIT       EA
@@ -734,6 +747,9 @@ SYMBOL TABLE OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
       000000A8H.5 SFRSYM    DATA     BIT       ET2
       00000088H.7 SFRSYM    DATA     BIT       TF1
       000000C8H.7 SFRSYM    DATA     BIT       TF2
+LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:51:37  PAGE 12
+
+
       00000098H.2 SFRSYM    DATA     BIT       RB8
       0000008CH   SFRSYM    DATA     BYTE      TH0
       000000A8H.0 SFRSYM    DATA     BIT       EX0
@@ -747,9 +763,6 @@ SYMBOL TABLE OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
       00000098H.7 SFRSYM    DATA     BIT       SM0
       0000008AH   SFRSYM    DATA     BYTE      TL0
       00000098H.6 SFRSYM    DATA     BIT       SM1
-LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:25:43  PAGE 12
-
-
       0000008BH   SFRSYM    DATA     BYTE      TL1
       00000098H.5 SFRSYM    DATA     BIT       SM2
       000000CCH   SFRSYM    DATA     BYTE      TL2
@@ -789,115 +802,112 @@ SYMBOL TABLE OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
 
       010001F0H   BLOCK     CODE     ---       LVL=0
       00000007H   SYMBOL    DATA     BYTE      state
-      010001F0H   LINE      CODE     ---       #55
-      010001F0H   LINE      CODE     ---       #56
-      010001F0H   LINE      CODE     ---       #58
-      010001F6H   LINE      CODE     ---       #59
-      010001FCH   LINE      CODE     ---       #62
-      0100020AH   LINE      CODE     ---       #63
-      0100020AH   LINE      CODE     ---       #64
-      0100020CH   LINE      CODE     ---       #65
-      0100020EH   LINE      CODE     ---       #66
-      0100020FH   LINE      CODE     ---       #68
-      0100020FH   LINE      CODE     ---       #69
-      01000211H   LINE      CODE     ---       #70
-      01000213H   LINE      CODE     ---       #71
-      01000214H   LINE      CODE     ---       #73
-      01000214H   LINE      CODE     ---       #74
-      01000216H   LINE      CODE     ---       #75
-      01000218H   LINE      CODE     ---       #76
-      01000219H   LINE      CODE     ---       #78
-      01000219H   LINE      CODE     ---       #79
-      0100021BH   LINE      CODE     ---       #80
-      0100021DH   LINE      CODE     ---       #81
-      0100021EH   LINE      CODE     ---       #83
-      0100021EH   LINE      CODE     ---       #85
-      01000220H   LINE      CODE     ---       #86
-      01000222H   LINE      CODE     ---       #87
-      01000222H   LINE      CODE     ---       #88
-LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:25:43  PAGE 13
+      010001F0H   LINE      CODE     ---       #60
+      010001F0H   LINE      CODE     ---       #61
+      010001F0H   LINE      CODE     ---       #63
+      010001F6H   LINE      CODE     ---       #64
+      010001FCH   LINE      CODE     ---       #67
+      0100020AH   LINE      CODE     ---       #68
+      0100020AH   LINE      CODE     ---       #69
+      0100020CH   LINE      CODE     ---       #70
+      0100020EH   LINE      CODE     ---       #71
+      0100020FH   LINE      CODE     ---       #73
+      0100020FH   LINE      CODE     ---       #74
+      01000211H   LINE      CODE     ---       #75
+      01000213H   LINE      CODE     ---       #76
+LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:51:37  PAGE 13
 
 
-      01000222H   LINE      CODE     ---       #89
+      01000214H   LINE      CODE     ---       #78
+      01000214H   LINE      CODE     ---       #79
+      01000216H   LINE      CODE     ---       #80
+      01000218H   LINE      CODE     ---       #81
+      01000219H   LINE      CODE     ---       #83
+      01000219H   LINE      CODE     ---       #84
+      0100021BH   LINE      CODE     ---       #85
+      0100021DH   LINE      CODE     ---       #86
+      0100021EH   LINE      CODE     ---       #88
+      0100021EH   LINE      CODE     ---       #90
+      01000220H   LINE      CODE     ---       #91
+      01000222H   LINE      CODE     ---       #92
+      01000222H   LINE      CODE     ---       #93
+      01000222H   LINE      CODE     ---       #94
       ---         BLOCKEND  ---      ---       LVL=0
 
       01000223H   BLOCK     CODE     ---       LVL=0
-      01000223H   LINE      CODE     ---       #97
-      01000223H   LINE      CODE     ---       #98
-      01000223H   LINE      CODE     ---       #100
-      01000230H   LINE      CODE     ---       #101
-      01000233H   LINE      CODE     ---       #104
-      0100023FH   LINE      CODE     ---       #122
-      0100023FH   LINE      CODE     ---       #123
-      01000240H   LINE      CODE     ---       #124
-      01000243H   LINE      CODE     ---       #125
-      01000243H   LINE      CODE     ---       #126
+      01000223H   LINE      CODE     ---       #102
+      01000223H   LINE      CODE     ---       #103
+      01000223H   LINE      CODE     ---       #105
+      01000230H   LINE      CODE     ---       #106
+      01000233H   LINE      CODE     ---       #109
+      0100023FH   LINE      CODE     ---       #127
+      0100023FH   LINE      CODE     ---       #128
+      01000240H   LINE      CODE     ---       #129
+      01000243H   LINE      CODE     ---       #130
+      01000243H   LINE      CODE     ---       #131
       ---         BLOCKEND  ---      ---       LVL=0
 
       01000264H   BLOCK     CODE     ---       LVL=0
-      01000264H   LINE      CODE     ---       #133
-      01000264H   LINE      CODE     ---       #134
-      01000264H   LINE      CODE     ---       #136
-      0100026BH   LINE      CODE     ---       #139
-      01000274H   LINE      CODE     ---       #142
-      01000278H   LINE      CODE     ---       #145
-      0100027BH   LINE      CODE     ---       #148
-      0100027DH   LINE      CODE     ---       #149
-      0100027FH   LINE      CODE     ---       #150
+      01000264H   LINE      CODE     ---       #138
+      01000264H   LINE      CODE     ---       #139
+      01000264H   LINE      CODE     ---       #141
+      0100026BH   LINE      CODE     ---       #144
+      01000274H   LINE      CODE     ---       #147
+      01000278H   LINE      CODE     ---       #150
+      0100027BH   LINE      CODE     ---       #153
+      0100027DH   LINE      CODE     ---       #154
+      0100027FH   LINE      CODE     ---       #155
       ---         BLOCKEND  ---      ---       LVL=0
 
       01000244H   BLOCK     CODE     ---       LVL=0
-      01000244H   LINE      CODE     ---       #161
-      01000244H   LINE      CODE     ---       #162
-      01000244H   LINE      CODE     ---       #164
-      01000247H   LINE      CODE     ---       #165
-      0100024AH   LINE      CODE     ---       #168
-      0100024DH   LINE      CODE     ---       #169
-      01000250H   LINE      CODE     ---       #172
-      01000252H   LINE      CODE     ---       #175
-      01000254H   LINE      CODE     ---       #176
-      01000256H   LINE      CODE     ---       #177
-      01000258H   LINE      CODE     ---       #180
-      0100025AH   LINE      CODE     ---       #183
-      0100025FH   LINE      CODE     ---       #184
-      01000263H   LINE      CODE     ---       #185
+      01000244H   LINE      CODE     ---       #166
+      01000244H   LINE      CODE     ---       #167
+      01000244H   LINE      CODE     ---       #169
+      01000247H   LINE      CODE     ---       #170
+      0100024AH   LINE      CODE     ---       #173
+      0100024DH   LINE      CODE     ---       #174
+      01000250H   LINE      CODE     ---       #177
+      01000252H   LINE      CODE     ---       #180
+      01000254H   LINE      CODE     ---       #181
+      01000256H   LINE      CODE     ---       #182
+      01000258H   LINE      CODE     ---       #185
+      0100025AH   LINE      CODE     ---       #188
+      0100025FH   LINE      CODE     ---       #189
+      01000263H   LINE      CODE     ---       #190
       ---         BLOCKEND  ---      ---       LVL=0
 
       0100000DH   BLOCK     CODE     ---       LVL=0
-      0100000DH   LINE      CODE     ---       #196
-      01000020H   LINE      CODE     ---       #199
-      01000023H   LINE      CODE     ---       #200
-      01000026H   LINE      CODE     ---       #203
-      01000028H   LINE      CODE     ---       #204
-      0100002AH   LINE      CODE     ---       #207
-      01000032H   LINE      CODE     ---       #208
-      0100003AH   LINE      CODE     ---       #211
-      01000048H   LINE      CODE     ---       #212
-      0100004AH   LINE      CODE     ---       #213
-      0100004AH   LINE      CODE     ---       #219
-      01000055H   LINE      CODE     ---       #220
-      0100005BH   LINE      CODE     ---       #223
-      01000062H   LINE      CODE     ---       #224
-      01000064H   LINE      CODE     ---       #225
-      01000064H   LINE      CODE     ---       #228
-      01000068H   LINE      CODE     ---       #229
-      0100006AH   LINE      CODE     ---       #230
-      0100006AH   LINE      CODE     ---       #231
-LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:25:43  PAGE 14
+      0100000DH   LINE      CODE     ---       #203
+      0100002AH   LINE      CODE     ---       #206
+      0100002DH   LINE      CODE     ---       #207
+      01000030H   LINE      CODE     ---       #210
+      01000038H   LINE      CODE     ---       #211
+      01000040H   LINE      CODE     ---       #218
+LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:51:37  PAGE 14
 
 
-      0100006AH   LINE      CODE     ---       #234
-      0100006CH   LINE      CODE     ---       #235
-      0100006EH   LINE      CODE     ---       #236
+      01000046H   LINE      CODE     ---       #224
+      01000054H   LINE      CODE     ---       #225
+      01000056H   LINE      CODE     ---       #226
+      01000056H   LINE      CODE     ---       #232
+      01000061H   LINE      CODE     ---       #233
+      01000067H   LINE      CODE     ---       #236
+      0100006EH   LINE      CODE     ---       #237
+      01000070H   LINE      CODE     ---       #238
+      01000070H   LINE      CODE     ---       #241
+      01000074H   LINE      CODE     ---       #242
+      01000076H   LINE      CODE     ---       #243
+      01000076H   LINE      CODE     ---       #244
+      01000076H   LINE      CODE     ---       #245
       ---         BLOCKEND  ---      ---       LVL=0
 
       ---         MODULE    ---      ---       TIMER
-      00000032H   PUBLIC    DATA     WORD      systemTime_s
+      00000034H   PUBLIC    DATA     WORD      systemTime_s
       010001B2H   PUBLIC    CODE     ---       _Test_DelayAccuracy
-      010002C6H   PUBLIC    CODE     ---       Reset_SystemTime
-      010002CCH   PUBLIC    CODE     ---       Get_SystemTime_s
-      01000298H   PUBLIC    CODE     ---       _Delay_s
-      010002ACH   PUBLIC    CODE     ---       _Delay_us
+      010002DDH   PUBLIC    CODE     ---       Reset_SystemTime
+      010002E3H   PUBLIC    CODE     ---       Get_SystemTime_s
+      010002AFH   PUBLIC    CODE     ---       _Delay_s
+      010002C3H   PUBLIC    CODE     ---       _Delay_us
       01000280H   PUBLIC    CODE     ---       _Delay_ms
       000000A0H.6 SFRSYM    DATA     BIT       DISPLAY_SEL_A
       00000080H   SFRSYM    DATA     BYTE      P0
@@ -941,6 +951,9 @@ SYMBOL TABLE OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
       00000099H   SFRSYM    DATA     BYTE      SBUF
       00000087H   SFRSYM    DATA     BYTE      PCON
       00000098H   SFRSYM    DATA     BYTE      SCON
+LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:51:37  PAGE 15
+
+
       00000089H   SFRSYM    DATA     BYTE      TMOD
       00000088H   SFRSYM    DATA     BYTE      TCON
       000000A0H.5 SFRSYM    DATA     BIT       EW_GREEN_PIN
@@ -951,9 +964,6 @@ SYMBOL TABLE OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
       000000F0H   SFRSYM    DATA     BYTE      B
       000000C8H.0 SFRSYM    DATA     BIT       CP_RL2
       000000B0H.4 SFRSYM    DATA     BIT       BLUETOOTH_RX
-LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:25:43  PAGE 15
-
-
       000000B0H.5 SFRSYM    DATA     BIT       BLUETOOTH_TX
       000000E0H   SFRSYM    DATA     BYTE      ACC
       000000A8H.1 SFRSYM    DATA     BIT       ET0
@@ -1002,26 +1012,26 @@ SYMBOL TABLE OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
       000000B0H.1 SFRSYM    DATA     BIT       TXD
       000000D0H.5 SFRSYM    DATA     BIT       F0
       000000D0H   SFRSYM    DATA     BYTE      PSW
-      010002BBH   SYMBOL    CODE     ---       Delay_1ms
+      010002D2H   SYMBOL    CODE     ---       Delay_1ms
 
-      010002BBH   BLOCK     CODE     ---       LVL=0
-      010002BBH   BLOCK     CODE     NEAR LAB  LVL=1
+      010002D2H   BLOCK     CODE     ---       LVL=0
+      010002D2H   BLOCK     CODE     NEAR LAB  LVL=1
       00000007H   SYMBOL    DATA     BYTE      i
       00000006H   SYMBOL    DATA     BYTE      j
       ---         BLOCKEND  ---      ---       LVL=1
-      010002BBH   LINE      CODE     ---       #28
-      010002BBH   LINE      CODE     ---       #29
-      010002BBH   LINE      CODE     ---       #35
-      010002BCH   LINE      CODE     ---       #36
-      010002BDH   LINE      CODE     ---       #37
-      010002BFH   LINE      CODE     ---       #38
-      010002C1H   LINE      CODE     ---       #39
-      010002C1H   LINE      CODE     ---       #40
-      010002C3H   LINE      CODE     ---       #41
-      010002C5H   LINE      CODE     ---       #42
-LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:25:43  PAGE 16
+LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:51:37  PAGE 16
 
 
+      010002D2H   LINE      CODE     ---       #28
+      010002D2H   LINE      CODE     ---       #29
+      010002D2H   LINE      CODE     ---       #35
+      010002D3H   LINE      CODE     ---       #36
+      010002D4H   LINE      CODE     ---       #37
+      010002D6H   LINE      CODE     ---       #38
+      010002D8H   LINE      CODE     ---       #39
+      010002D8H   LINE      CODE     ---       #40
+      010002DAH   LINE      CODE     ---       #41
+      010002DCH   LINE      CODE     ---       #42
       ---         BLOCKEND  ---      ---       LVL=0
 
       01000280H   BLOCK     CODE     ---       LVL=0
@@ -1037,59 +1047,59 @@ SYMBOL TABLE OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
       01000297H   LINE      CODE     ---       #55
       ---         BLOCKEND  ---      ---       LVL=0
 
-      010002ACH   BLOCK     CODE     ---       LVL=0
+      010002C3H   BLOCK     CODE     ---       LVL=0
       00000006H   SYMBOL    DATA     WORD      us
-      010002ACH   LINE      CODE     ---       #64
-      010002ACH   LINE      CODE     ---       #65
-      010002ACH   LINE      CODE     ---       #66
-      010002B6H   LINE      CODE     ---       #67
-      010002B7H   LINE      CODE     ---       #68
-      010002B8H   LINE      CODE     ---       #69
-      010002BAH   LINE      CODE     ---       #70
+      010002C3H   LINE      CODE     ---       #64
+      010002C3H   LINE      CODE     ---       #65
+      010002C3H   LINE      CODE     ---       #66
+      010002CDH   LINE      CODE     ---       #67
+      010002CEH   LINE      CODE     ---       #68
+      010002CFH   LINE      CODE     ---       #69
+      010002D1H   LINE      CODE     ---       #70
       ---         BLOCKEND  ---      ---       LVL=0
 
-      01000298H   BLOCK     CODE     ---       LVL=0
-      00000034H   SYMBOL    DATA     BYTE      sec
-      0100029AH   BLOCK     CODE     NEAR LAB  LVL=1
+      010002AFH   BLOCK     CODE     ---       LVL=0
+      00000036H   SYMBOL    DATA     BYTE      sec
+      010002B1H   BLOCK     CODE     NEAR LAB  LVL=1
       00000001H   SYMBOL    DATA     BYTE      i
       ---         BLOCKEND  ---      ---       LVL=1
-      01000298H   LINE      CODE     ---       #77
-      0100029AH   LINE      CODE     ---       #78
-      0100029AH   LINE      CODE     ---       #80
-      010002A2H   LINE      CODE     ---       #81
-      010002A8H   LINE      CODE     ---       #82
-      010002ABH   LINE      CODE     ---       #83
+      010002AFH   LINE      CODE     ---       #77
+      010002B1H   LINE      CODE     ---       #78
+      010002B1H   LINE      CODE     ---       #80
+      010002B9H   LINE      CODE     ---       #81
+      010002BFH   LINE      CODE     ---       #82
+      010002C2H   LINE      CODE     ---       #83
       ---         BLOCKEND  ---      ---       LVL=0
 
-      010002CCH   BLOCK     CODE     ---       LVL=0
-      010002CCH   LINE      CODE     ---       #94
-      010002CCH   LINE      CODE     ---       #95
-      010002CCH   LINE      CODE     ---       #96
-      010002D0H   LINE      CODE     ---       #97
+      010002E3H   BLOCK     CODE     ---       LVL=0
+      010002E3H   LINE      CODE     ---       #94
+      010002E3H   LINE      CODE     ---       #95
+      010002E3H   LINE      CODE     ---       #96
+      010002E7H   LINE      CODE     ---       #97
       ---         BLOCKEND  ---      ---       LVL=0
 
-      010002C6H   BLOCK     CODE     ---       LVL=0
-      010002C6H   LINE      CODE     ---       #104
-      010002C6H   LINE      CODE     ---       #105
-      010002C6H   LINE      CODE     ---       #106
-      010002CBH   LINE      CODE     ---       #107
+      010002DDH   BLOCK     CODE     ---       LVL=0
+      010002DDH   LINE      CODE     ---       #104
+      010002DDH   LINE      CODE     ---       #105
+      010002DDH   LINE      CODE     ---       #106
+      010002E2H   LINE      CODE     ---       #107
       ---         BLOCKEND  ---      ---       LVL=0
 
       010001B2H   BLOCK     CODE     ---       LVL=0
       00000007H   SYMBOL    DATA     BYTE      testSeconds
+LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:51:37  PAGE 17
+
+
       010001B2H   BLOCK     CODE     NEAR LAB  LVL=1
-      0000002EH   SYMBOL    DATA     BYTE      count
+      00000032H   SYMBOL    DATA     BYTE      count
       010001C9H   BLOCK     CODE     NEAR LAB  LVL=2
-      0000002FH   SYMBOL    DATA     BYTE      i
+      00000033H   SYMBOL    DATA     BYTE      i
       ---         BLOCKEND  ---      ---       LVL=2
       ---         BLOCKEND  ---      ---       LVL=1
       010001B2H   LINE      CODE     ---       #120
       010001B2H   LINE      CODE     ---       #121
       010001B2H   LINE      CODE     ---       #126
       010001BAH   LINE      CODE     ---       #129
-LX51 LINKER/LOCATER V4.66.100.0                                                       10/08/2025  18:25:43  PAGE 17
-
-
       010001C3H   LINE      CODE     ---       #131
       010001C9H   LINE      CODE     ---       #134
       010001C9H   LINE      CODE     ---       #136
@@ -1103,12 +1113,15 @@ SYMBOL TABLE OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
       ---         BLOCKEND  ---      ---       LVL=0
 
       ---         MODULE    ---      ---       ?C_INIT
-      01000318H   PUBLIC    CODE     ---       ?C_START
+      0100032FH   PUBLIC    CODE     ---       ?C_START
 
       ---         MODULE    ---      ---       ?C?UIDIV
-      010003B6H   PUBLIC    CODE     ---       ?C?UIDIV
+      010003CDH   PUBLIC    CODE     ---       ?C?UIDIV
 
 
+
+*** WARNING L57: UNCALLED FUNCTION, IGNORED FOR OVERLAY PROCESS
+    NAME:    _DISPLAY_SHOWTIME_1S/DISPLAY
 
 *** WARNING L57: UNCALLED FUNCTION, IGNORED FOR OVERLAY PROCESS
     NAME:    HANDLETRAFFICLIGHTFLASH/TRAFFIC_LIGHT
@@ -1125,5 +1138,8 @@ SYMBOL TABLE OF MODULE:  .\Objects\samrt_traffic_light_system (?C_STARTUP)
 *** WARNING L57: UNCALLED FUNCTION, IGNORED FOR OVERLAY PROCESS
     NAME:    RESET_SYSTEMTIME/TIMER
 
-Program Size: data=54.0 xdata=0 const=0 code=1035
-LX51 RUN COMPLETE.  5 WARNING(S),  0 ERROR(S)
+*** WARNING L57: UNCALLED FUNCTION, IGNORED FOR OVERLAY PROCESS
+    NAME:    _TEST_DELAYACCURACY/TIMER
+
+Program Size: data=56.0 xdata=0 const=0 code=1058
+LX51 RUN COMPLETE.  7 WARNING(S),  0 ERROR(S)

@@ -54,13 +54,16 @@ void Display_Init(void)
 }
 
 /**
- * @brief  显示两位数字（使用2-4译码器动态扫描）
+ * @brief  显示两位数字（使用2-4译码器动态扫描） - 单次刷新版本
  * @param  nsTime: 南北方向剩余时间 (0-9)
  * @param  ewTime: 东西方向剩余时间 (0-9)
  * @note   使用74HC139译码器，只使用Y0和Y1两个输出
  *         数码管0(Y0): 显示 nsTime（南北方向）
  *         数码管1(Y1): 显示 ewTime（东西方向）
  *         已适配共阳极数码管（段码已取反）
+ *         
+ *         【重要】此函数仅执行一次快速扫描，需要外部循环调用
+ *         推荐调用频率：100Hz以上（每秒100次）
  */
 void Display_ShowTime(unsigned char nsTime, unsigned char ewTime)
 {
@@ -78,9 +81,10 @@ void Display_ShowTime(unsigned char nsTime, unsigned char ewTime)
     
     DISPLAY_DATA_PORT = segmentTable[nsTime];  // 送入段码
     
-    for(i=0; i<30; i++)             // 增加保持时间，减少闪烁
-        for(j=0; j<50; j++);
-    
+    // 保持时间：约1-2ms（根据晶振频率调整）
+    for(i=0; i<6; i++)
+        for(j=0; j<10; j++);
+
     // ========== 显示第1位：东西方向时间 ==========
     // 地址: BA = 01 → 选中Y1
     DISPLAY_DATA_PORT = 0xFF;       // 【关键】先消隐（共阳极用0xFF）
@@ -88,8 +92,31 @@ void Display_ShowTime(unsigned char nsTime, unsigned char ewTime)
     DISPLAY_SEL_B = 0;              // B=0
     
     DISPLAY_DATA_PORT = segmentTable[ewTime];  // 送入段码
+    
+    // 保持时间：约1-2ms
+    for(i=0; i<30; i++)
+        for(j=0; j<10; j++);
+}
 
-    for(i=0; i<30; i++)             // 增加保持时间，减少闪烁
-        for(j=0; j<50; j++);
+/**
+ * @brief  持续显示1秒钟（高速刷新版本）
+ * @param  nsTime: 南北方向剩余时间 (0-9)
+ * @param  ewTime: 东西方向剩余时间 (0-9)
+ * @note   此函数会持续刷新显示1秒钟，期间不会闪烁
+ *         刷新频率：约200次/秒（每次刷新耗时约5ms）
+ *         
+ *         【调用方式】
+ *         方式1：在主循环中每秒调用一次（阻塞式）
+ *         方式2：在定时器中断中周期性调用 Display_ShowTime()（非阻塞）
+ */
+void Display_ShowTime_1s(unsigned char nsTime, unsigned char ewTime)
+{
+    unsigned int refresh_count;
+    
+    // 1秒 = 200次刷新 × 5ms/次
+    for(refresh_count = 0; refresh_count < 200; refresh_count++)
+    {
+        Display_ShowTime(nsTime, ewTime);
+    }
 }
 

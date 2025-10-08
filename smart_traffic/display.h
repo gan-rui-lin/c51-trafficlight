@@ -44,12 +44,23 @@ extern unsigned char displayBrightness;
 void Display_Init(void);
 
 /**
- * @brief  显示倒计时
+ * @brief  显示倒计时（单次快速刷新）
  * @param  nsTime: 南北方向剩余时间
  * @param  ewTime: 东西方向剩余时间
  * @retval 无
+ * @note   此函数执行一次快速扫描（约5ms），需要外部循环调用
  */
 void Display_ShowTime(unsigned char nsTime, unsigned char ewTime);
+
+/**
+ * @brief  持续显示1秒钟（高速刷新，无闪烁）
+ * @param  nsTime: 南北方向剩余时间
+ * @param  ewTime: 东西方向剩余时间
+ * @retval 无
+ * @note   此函数会阻塞执行1秒，期间连续刷新显示200次
+ *         适合在主循环中每秒调用一次
+ */
+void Display_ShowTime_1s(unsigned char nsTime, unsigned char ewTime);
 
 /**
  * @brief  显示设置信息

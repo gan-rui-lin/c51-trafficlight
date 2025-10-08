@@ -7,6 +7,7 @@
  **************************************************/
 
 #include "traffic_light.h"
+#include "display.h"  // 用于在中断中调用 Display_ShowTime()
 
 
 /*-----------------------全局变量定义-------------------------*/
@@ -16,6 +17,10 @@ volatile unsigned char timeLeft = GREEN_LIGHT_TIME;             // 当前状态�
 volatile unsigned char isFlashing = 0;                          // 闪烁标志
 volatile unsigned int timer0Count = 0;                          // Timer0中断计数器
 volatile unsigned int flashCount = 0;                           // 闪烁计数器
+
+// 外部变量声明（来自main.c的显示变量）
+extern volatile unsigned char nsTime;
+extern volatile unsigned char ewTime;
 
 // 状态时间配置表（各状态持续时间）
 unsigned char stateTimeTable[4] = {
@@ -191,7 +196,9 @@ void Timer0_Init(void)
  * @brief  Timer0中断服务函数
  * @param  无
  * @retval 无
- * @note   每2ms执行一次，500次中断产生1秒定时
+ * @note   每2ms执行一次
+ *         - 33次中断 = 66ms ≈ 1秒（用于交通灯计时）
+ *         - 每次中断调用显示刷新（约500Hz刷新率）
  */
 void Timer0_ISR(void) interrupt 1
 {
@@ -199,14 +206,20 @@ void Timer0_ISR(void) interrupt 1
     TH0 = TIMER0_RELOAD_H;
     TL0 = TIMER0_RELOAD_L;
     
-    // 关中断保护（重要！）
-    TR0 = 0;  // 暂停计时器
-    EA = 0;   // 全局关中断
-    
     // 2ms定时计数
     timer0Count++;
     flashCount++;
     
+    // ==========================================
+    // 【关键】数码管显示刷新（每2ms刷新一次）
+    // ==========================================
+    // 调用显示函数进行快速扫描（约5ms完成）
+    // 注意：Display_ShowTime()会阻塞5ms，但2ms中断仍会继续
+    Display_ShowTime(nsTime, ewTime);
+    
+    // ==========================================
+    // 心跳指示和交通灯控制
+    // ==========================================
     // 心跳指示：每 1s 切换一次DEBUG_1S_PIN (实际是 3s)
     if ((timer0Count % (100 / 3)) == 0) {
         DEBUG_1S_PIN = !DEBUG_1S_PIN;
@@ -215,7 +228,7 @@ void Timer0_ISR(void) interrupt 1
     // 处理闪烁逻辑（每2ms检查一次）
     // HandleTrafficLightFlash();
     
-    // 1秒定时处理：500次中断 = 1000ms = 1秒
+    // 1秒定时处理：33次中断 ≈ 66ms × 15.15 ≈ 1秒
     if (timer0Count >= 33) {
         timer0Count = 0;  // 重置计数器
         
@@ -229,8 +242,4 @@ void Timer0_ISR(void) interrupt 1
             SwitchToNextState();
         }
     }
-    
-    // 恢复中断（重要！）
-    EA = 1;   // 再开中断
-    TR0 = 1;  // 恢复定时器
 }
