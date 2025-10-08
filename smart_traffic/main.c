@@ -140,17 +140,20 @@ void System_Init(void)
 static void Keys_Scan(void)
 {
     static unsigned char lastSet = 1, lastUp = 1, lastDown = 1;
-    static unsigned int debounceCnt = 0;
+    // 为每个按键使用独立的消抖计数器，避免互相干扰
+    static unsigned int debounceSet = 0, debounceUp = 0, debounceDown = 0;
     unsigned char curSet = ReadKey(KEY_SET_MODE);
     unsigned char curUp = ReadKey(KEY_UP);
     unsigned char curDown = ReadKey(KEY_DOWN);
 
     // 简单消抖：每次调用间隔>~0.5ms（主循环很快），通过计数限制处理频率
-    if(debounceCnt < 200) debounceCnt++; // 约几毫秒
+    if(debounceSet < 200) debounceSet++;
+    if(debounceUp < 200) debounceUp++;
+    if(debounceDown < 200) debounceDown++;
 
     // SET 键：下降沿
-    if(lastSet == 1 && curSet == 0 && debounceCnt > 5) {
-        debounceCnt = 0;
+    if(lastSet == 1 && curSet == 0 && debounceSet > 5) {
+        debounceSet = 0;
         if(!g_isSettingMode) {
             g_isSettingMode = 1; // 进入设置
             g_selectedColor = 0; // 先红
@@ -175,8 +178,8 @@ static void Keys_Scan(void)
 
     // 仅在设置模式且未准备退出时处理加减
     if(g_isSettingMode && g_selectedColor < 3) {
-        if(lastUp == 1 && curUp == 0 && debounceCnt > 5) {
-            debounceCnt = 0;
+        if(lastUp == 1 && curUp == 0 && debounceUp > 5) {
+            debounceUp = 0;
             if(g_selectedColor == 0) {
                 // 红灯=绿+黄，不直接加，提示：通过加绿实现
                 // 这里选择加绿
@@ -188,15 +191,19 @@ static void Keys_Scan(void)
             }
             g_time_red = g_time_green + g_time_yellow;
         }
-        if(lastDown == 1 && curDown == 0 && debounceCnt > 5) {
-            debounceCnt = 0;
+        if(lastDown == 1 && curDown == 0 && debounceDown > 5) {
+            debounceDown = 0;  // 重置消抖计数器
             if(g_selectedColor == 0) {
-                if(g_time_green > MIN_LIGHT_TIME) g_time_green--; // 通过减绿
+                // 红灯模式：通过减绿灯时间来减少红灯时间
+                if(g_time_green > MIN_LIGHT_TIME) g_time_green--;
             } else if(g_selectedColor == 1) {
+                // 黄灯模式：直接减黄灯时间
                 if(g_time_yellow > MIN_LIGHT_TIME) g_time_yellow--;
             } else if(g_selectedColor == 2) {
+                // 绿灯模式：直接减绿灯时间
                 if(g_time_green > MIN_LIGHT_TIME) g_time_green--;
             }
+            // 更新红灯时间（红=绿+黄）
             g_time_red = g_time_green + g_time_yellow;
         }
     }

@@ -130,7 +130,7 @@ sbit IR_RECEIVE_PIN = P3 ^ 6; // 红外接收端口（别名）
 #define DEFAULT_RED_TIME 6    // 默认红灯时间（绿灯+黄灯）
 
 // 时间限制配置
-#define MIN_LIGHT_TIME 5        // 最小灯时间
+#define MIN_LIGHT_TIME 1        // 最小灯时间（原为5，导致初始默认值3无法再减少）
 #define MAX_LIGHT_TIME 99       // 最大灯时间
 #define EMERGENCY_EXTEND_TIME 5 // 紧急延时时间
 
