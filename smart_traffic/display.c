@@ -78,8 +78,8 @@ void Display_ShowTime(unsigned char nsTime, unsigned char ewTime)
     
     DISPLAY_DATA_PORT = segmentTable[nsTime];  // 送入段码
     
-    for(i=0; i<100; i++)             // 保持一段时间
-        for(j=0; j<100; j++);
+    for(i=0; i<10; i++)             // 保持一段时间
+        for(j=0; j<10; j++);
     
     // ========== 显示第1位：东西方向时间 ==========
     // 地址: BA = 01 → 选中Y1
@@ -89,7 +89,7 @@ void Display_ShowTime(unsigned char nsTime, unsigned char ewTime)
     
     DISPLAY_DATA_PORT = segmentTable[ewTime];  // 送入段码
 
-    for(i=0; i<100; i++)             // 保持一段时间
-        for(j=0; j<100; j++);
+    for(i=0; i<10; i++)             // 保持一段时间
+        for(j=0; j<10; j++);
 }
 

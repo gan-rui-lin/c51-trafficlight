@@ -207,8 +207,8 @@ void Timer0_ISR(void) interrupt 1
     timer0Count++;
     flashCount++;
     
-    // 心跳指示：每100次中断（200ms）切换一次DEBUG_1S_PIN
-    if ((timer0Count % 100) == 0) {
+    // 心跳指示：每 1s 切换一次DEBUG_1S_PIN (实际是 3s)
+    if ((timer0Count % (100 / 3)) == 0) {
         DEBUG_1S_PIN = !DEBUG_1S_PIN;
     }
     
@@ -216,7 +216,7 @@ void Timer0_ISR(void) interrupt 1
     // HandleTrafficLightFlash();
     
     // 1秒定时处理：500次中断 = 1000ms = 1秒
-    if (timer0Count >= 500) {
+    if (timer0Count >= 33) {
         timer0Count = 0;  // 重置计数器
         
         // 时间递减

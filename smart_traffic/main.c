@@ -62,7 +62,7 @@ void System_Init(void)
     DEBUG_1S_PIN = 1;    DEBUG_STATE_PIN = 1;
     
     // 使用标准延时函数
-    Delay_s(1);  // 精确延时1秒
+    Delay_ms(1000);  // 精确延时1秒
     
     // 关闭所有灯，准备正常工作
     NS_RED_PIN = 0;      NS_YELLOW_PIN = 0;    NS_GREEN_PIN = 0;
@@ -82,7 +82,7 @@ void System_Init(void)
     
     // 延时测试完成，显示 "88" 表示系统准备就绪
     Display_ShowTime(8, 8);
-    Delay_ms(500);
+    Delay_ms(5000);
 }
 
 /*==============================================
