@@ -202,6 +202,9 @@ void Timer0_Init(void)
  */
 void Timer0_ISR(void) interrupt 1
 {
+	
+		        // 设置模式暂停倒计时
+    extern volatile unsigned char g_isSettingMode; // 引入设置模式标志
     // 重新装载定时器初值
     TH0 = TIMER0_RELOAD_H;
     TL0 = TIMER0_RELOAD_L;
@@ -231,15 +234,52 @@ void Timer0_ISR(void) interrupt 1
     // 1秒定时处理：33次中断 ≈ 66ms × 15.15 ≈ 1秒
     if (timer0Count >= 33) {
         timer0Count = 0;  // 重置计数器
-        
-        // 时间递减
-        if (timeLeft > 0) {
-            timeLeft--;
+
+
+        if (!g_isSettingMode) {
+            // 时间递减
+            if (timeLeft > 0) {
+                timeLeft--;
+            }
+            // 检查是否需要切换状态
+            if (timeLeft == 0) {
+                SwitchToNextState();
+            }
         }
-        
-        // 检查是否需要切换状态
-        if (timeLeft == 0) {
-            SwitchToNextState();
-        }
+    }
+}
+
+/*==============================================
+ *         设置模式支持的辅助函数实现
+ *==============================================*/
+void UpdateStateTimeTable(void)
+{
+    // 使用可调变量（全局 extern）更新状态时间表
+    extern volatile unsigned char g_time_green;
+    extern volatile unsigned char g_time_yellow;
+    // 红灯时间 = 对向绿 + 黄，这里默认相同配比
+    // 对称十字路口：NS绿=EW绿=g_time_green；黄同理
+    stateTimeTable[STATE_NS_GREEN_EW_RED]  = g_time_green;   // 南北绿(东西红)
+    stateTimeTable[STATE_NS_YELLOW_EW_RED] = g_time_yellow;  // 南北黄(东西红)
+    stateTimeTable[STATE_NS_RED_EW_GREEN]  = g_time_green;   // 东西绿(南北红)
+    stateTimeTable[STATE_NS_RED_EW_YELLOW] = g_time_yellow;  // 东西黄(南北红)
+}
+
+void ShowSettingColorLights(void)
+{
+    extern volatile unsigned char g_selectedColor;
+    // 熄灭全部
+    NS_RED_PIN = 0; NS_YELLOW_PIN = 0; NS_GREEN_PIN = 0;
+    EW_RED_PIN = 0; EW_YELLOW_PIN = 0; EW_GREEN_PIN = 0;
+    // 按颜色点亮两个方向对应灯，指示正在设置
+    switch(g_selectedColor) {
+        case 0: // 红
+            NS_RED_PIN = 1; EW_RED_PIN = 1; break;
+        case 1: // 黄
+            NS_YELLOW_PIN = 1; EW_YELLOW_PIN = 1; break;
+        case 2: // 绿
+            NS_GREEN_PIN = 1; EW_GREEN_PIN = 1; break;
+        default:
+            break;
     }
 }

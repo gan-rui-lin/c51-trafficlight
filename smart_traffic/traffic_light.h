@@ -60,4 +60,24 @@ extern volatile unsigned int timer0Count;   // Timer0中断计数器
 extern volatile unsigned int flashCount;    // 闪烁计数器
 extern unsigned char stateTimeTable[4];     // 状态时间配置表
 
+/*=======================新增：设置模式支持=======================*/
+// 设置模式标志：1=正在设置（暂停倒计时），0=正常
+extern volatile unsigned char g_isSettingMode;
+// 当前选择的颜色：0=红,1=黄,2=绿 （循环按键切换）
+extern volatile unsigned char g_selectedColor;
+// 可调节的三个颜色时间（秒），红灯时间=对向绿+黄，保持一致
+extern volatile unsigned char g_time_red;
+extern volatile unsigned char g_time_yellow;
+extern volatile unsigned char g_time_green;
+
+/**
+ * @brief  根据当前颜色时间刷新状态时间表 stateTimeTable
+ */
+void UpdateStateTimeTable(void);
+
+/**
+ * @brief  设置模式下点亮对应颜色的灯作为指示（两个方向同色灯亮）
+ */
+void ShowSettingColorLights(void);
+
 #endif /* __TRAFFIC_LIGHT_H__ */

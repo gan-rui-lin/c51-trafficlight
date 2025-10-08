@@ -83,11 +83,14 @@ sbit DISPLAY_COM2 = P2 ^ 7; // 第2位公共端（高电平导通）
 
 /*-----------------------按键硬件配置-------------------------*/
 // 操作员按键端口定义
-sbit KEY_SET_MODE = P3 ^ 2;  // 模式设置键（外部中断0）
-sbit KEY_CONFIRM = P3 ^ 3;   // 确认键
+// sbit KEY_SET_MODE = P3 ^ 2;  // 模式设置键（外部中断0）
+// sbit KEY_CONFIRM = P3 ^ 3;   // 确认键
+
 sbit KEY_UP = P0 ^ 0;        // 增加键
 sbit KEY_DOWN = P0 ^ 1;      // 减少键
-sbit KEY_EMERGENCY = P0 ^ 2; // 紧急延时键
+sbit KEY_SET_MODE = P0 ^ 2;  // 模式设置键
+
+// sbit KEY_EMERGENCY = P0 ^ 2; // 紧急延时键
 
 /*-----------------------蜂鸣器配置---------------------------*/
 sbit BUZZER_PIN = P0 ^ 3; // 蜂鸣器控制端口
