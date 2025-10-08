@@ -10,6 +10,7 @@
 #include "config.h"
 #include "traffic_light.h"
 #include "display.h"
+#include "timer.h"
 
 extern unsigned char currentState;
 extern unsigned char timeLeft;
@@ -40,20 +41,28 @@ void System_Init(void)
     NS_RED_PIN = 0;      NS_YELLOW_PIN = 0;    NS_GREEN_PIN = 0;
     EW_RED_PIN = 0;      EW_YELLOW_PIN = 0;    EW_GREEN_PIN = 0;
     
+    // 初始化显示模块（先初始化，用于延时测试）
+    Display_Init();
+    
+    // ==========================================
+    // 延时测试：通过数码管倒计时验证延时准确性
+    // ==========================================
+    // 显示 "99" 提示即将开始测试
+    Display_ShowTime(9, 9);
+    Delay_ms(500);
+    
+    // 测试3秒延时（数码管显示 3→2→1→0）
+    Test_DelayAccuracy(3);
+    
+    // ==========================================
     // 硬件自检：所有灯亮1秒
+    // ==========================================
     NS_RED_PIN = 1;      NS_YELLOW_PIN = 1;    NS_GREEN_PIN = 1;
     EW_RED_PIN = 1;      EW_YELLOW_PIN = 1;    EW_GREEN_PIN = 1;
     DEBUG_1S_PIN = 1;    DEBUG_STATE_PIN = 1;
     
-    // 简单延时（自检延时）
-    {
-        unsigned int i, j;
-        for(i = 0; i < 1000; i++) {
-            for(j = 0; j < 100; j++) {
-                // 延时约1秒
-            }
-        }
-    }
+    // 使用标准延时函数
+    Delay_s(1);  // 精确延时1秒
     
     // 关闭所有灯，准备正常工作
     NS_RED_PIN = 0;      NS_YELLOW_PIN = 0;    NS_GREEN_PIN = 0;
@@ -68,11 +77,12 @@ void System_Init(void)
     // 设置初始交通灯状态
     SetTrafficLights(currentState);
     
-    // 初始化显示模块
-    Display_Init();
-    
     // 初始化定时器（这将启动整个系统）
     Timer0_Init();
+    
+    // 延时测试完成，显示 "88" 表示系统准备就绪
+    Display_ShowTime(8, 8);
+    Delay_ms(500);
 }
 
 /*==============================================

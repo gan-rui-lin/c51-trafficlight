@@ -411,6 +411,16 @@
               <FileType>5</FileType>
               <FilePath>.\smart_traffic\traffic_light.h</FilePath>
             </File>
+            <File>
+              <FileName>timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\smart_traffic\timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>timer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\smart_traffic\timer.h</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
