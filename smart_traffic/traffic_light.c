@@ -102,23 +102,23 @@ void HandleTrafficLightFlash(void)
         
         // 控制闪烁频率（约每500ms切换一次）
         if ((flashCount % 250) == 0) {
-            switch(currentState) {
-                case STATE_NS_GREEN_EW_RED:     // 南北绿灯闪烁
-                    NS_GREEN_PIN = !NS_GREEN_PIN;
-                    break;
+            // switch(currentState) {
+            //     case STATE_NS_GREEN_EW_RED:     // 南北绿灯闪烁
+            //         NS_GREEN_PIN = !NS_GREEN_PIN;
+            //         break;
                     
-                case STATE_NS_YELLOW_EW_RED:    // 南北黄灯闪烁
-                    NS_YELLOW_PIN = !NS_YELLOW_PIN;
-                    break;
+            //     case STATE_NS_YELLOW_EW_RED:    // 南北黄灯闪烁
+            //         NS_YELLOW_PIN = !NS_YELLOW_PIN;
+            //         break;
                     
-                case STATE_NS_RED_EW_GREEN:     // 东西绿灯闪烁
-                    EW_GREEN_PIN = !EW_GREEN_PIN;
-                    break;
+            //     case STATE_NS_RED_EW_GREEN:     // 东西绿灯闪烁
+            //         EW_GREEN_PIN = !EW_GREEN_PIN;
+            //         break;
                     
-                case STATE_NS_RED_EW_YELLOW:    // 东西黄灯闪烁
-                    EW_YELLOW_PIN = !EW_YELLOW_PIN;
-                    break;
-            }
+            //     case STATE_NS_RED_EW_YELLOW:    // 东西黄灯闪烁
+            //         EW_YELLOW_PIN = !EW_YELLOW_PIN;
+            //         break;
+            // }
         }
     } else {
         isFlashing = 0;
@@ -213,10 +213,10 @@ void Timer0_ISR(void) interrupt 1
     }
     
     // 处理闪烁逻辑（每2ms检查一次）
-    HandleTrafficLightFlash();
+    // HandleTrafficLightFlash();
     
     // 1秒定时处理：500次中断 = 1000ms = 1秒
-    if (timer0Count >= 50) {
+    if (timer0Count >= 500) {
         timer0Count = 0;  // 重置计数器
         
         // 时间递减

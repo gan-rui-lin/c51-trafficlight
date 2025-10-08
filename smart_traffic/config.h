@@ -41,7 +41,7 @@ sbit EW_GREEN_PIN    = P2^5;  // 东西绿灯
 #define STATE_NS_RED_EW_YELLOW    3  // 南北红灯，东西黄灯
 
 // 时间配置（单位：秒）
-#define GREEN_LIGHT_TIME    5    // 绿灯时间
+#define GREEN_LIGHT_TIME    3    // 绿灯时间
 #define YELLOW_LIGHT_TIME   3     // 黄灯时间
 #define FLASH_START_TIME    3     // 开始闪烁的剩余时间
 
@@ -51,10 +51,35 @@ sbit EW_GREEN_PIN    = P2^5;  // 东西绿灯
 
 /*-----------------------显示器硬件配置-----------------------*/
 // 数码管控制端口
-#define DISPLAY_DATA_PORT P1 // 数码管数据端口
-sbit DISPLAY_SEL_A = P2 ^ 6; // 数码管位选A
-sbit DISPLAY_SEL_B = P2 ^ 7; // 数码管位选B
-sbit DISPLAY_SEL_C = P3 ^ 0; // 数码管位选C
+#define DISPLAY_DATA_PORT P1 // 数码管段码数据端口 (a-g, dp)
+
+// ⚠️ 当前配置：共阳极数码管（段码已在代码中取反）
+// 如果改用共阴极数码管，需要修改display.c中的段码表
+
+// 2-4译码器控制信号（74HC139 或 74LS139）
+sbit DISPLAY_SEL_A = P2 ^ 6; // 译码器地址输入A (低位)
+sbit DISPLAY_SEL_B = P2 ^ 7; // 译码器地址输入B (高位)
+
+// 译码器使能控制（如果需要软件控制，否则硬件接地）
+// sbit DECODER_ENABLE = P3 ^ 0; // 可选的译码器使能控制（低电平有效）
+
+/*
+ * 2-4译码器真值表 (74HC139)：
+ * B A | Y0 Y1 Y2 Y3 | 选中的数码管位
+ * ----+-------------+--------------
+ * 0 0 |  0  1  1  1 | 第0位 (南北十位)
+ * 0 1 |  1  0  1  1 | 第1位 (南北个位)
+ * 1 0 |  1  1  0  1 | 第2位 (东西十位)
+ * 1 1 |  1  1  1  0 | 第3位 (东西个位)
+ * 
+ * 注：Y0-Y3输出为低电平有效(选中时为0)
+ * 
+ * 74HC139是双2-4译码器，包含两组独立的译码器：
+ * - 1Y组：A1(pin2), B1(pin3), E1(pin1), 输出1Y0-1Y3(pin4-7)
+ * - 2Y组：A2(pin14), B2(pin13), E2(pin15), 输出2Y0-2Y3(pin9-12)
+ * 
+ * 本设计只使用其中一组（推荐使用1Y组）
+ */
 
 /*-----------------------按键硬件配置-------------------------*/
 // 操作员按键端口定义
@@ -99,7 +124,7 @@ sbit IR_RECEIVE_PIN = P3 ^ 6; // 红外接收端口（别名）
 // 默认时间配置（单位：秒）
 #define DEFAULT_GREEN_TIME 3 // 默认绿灯时间
 #define DEFAULT_YELLOW_TIME 3 // 默认黄灯时间
-#define DEFAULT_RED_TIME 3   // 默认红灯时间（绿灯+黄灯）
+#define DEFAULT_RED_TIME 6   // 默认红灯时间（绿灯+黄灯）
 
 // 时间限制配置
 #define MIN_LIGHT_TIME 5        // 最小灯时间

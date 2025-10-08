@@ -1,10 +1,10 @@
 /**************************************************
- * 文件名:    main_modular.c
+ * 文件名:    main.c
  * 作者:      GitHub Copilot  
- * 日期:      2025-10-07
- * 描述:      智能交通灯系统 - 模块化版本
- *           基于可工作的单文件版本改造
- *           使用config.h和traffic_light模块
+ * 日期:      2025-10-08
+ * 描述:      智能交通灯系统 - 正式版本
+ *           使用2个数码管显示南北和东西方向剩余时间
+ *           基于74HC139译码器和共阳极数码管
  **************************************************/
 
 #include "config.h"
@@ -14,19 +14,16 @@
 extern unsigned char currentState;
 extern unsigned char timeLeft;
 extern unsigned char isFlashing;
-
 extern unsigned char stateTimeTable[4];
-
-	            unsigned char nsTime = 0;
-            unsigned char ewTime = 0;
 
 
 /*==============================================
  *                全局变量定义
  *==============================================*/
 
-// 显示刷新计数器
-static unsigned int displayRefreshCounter = 0;
+// 显示刷新变量
+static unsigned char nsTime = 0;  // 南北方向显示时间
+static unsigned char ewTime = 0;  // 东西方向显示时间
 
 /*==============================================
  *                系统初始化
@@ -91,54 +88,54 @@ void main(void)
     // 系统初始化
     System_Init();
     
-    // 主循环：所有工作都在Timer0中断中完成
-    // 主循环只需要保持系统运行
-
+    // 主循环：定时器中断处理交通灯逻辑，主循环处理显示刷新
     while(1) {
-        // 显示刷新处理（动态扫描显示）
-        displayRefreshCounter++;
-        if (displayRefreshCounter >= 100) {  // 每100次循环刷新一次
-            displayRefreshCounter = 0;
-            
-            // 计算并显示南北和东西方向的剩余时间
-            // 南北方向的剩余时间就是当前状态的剩余时间
-            // 东西方向的剩余时间需要根据状态计算
-
-            
-            switch(currentState) {
-                case STATE_NS_GREEN_EW_RED:     // 南北绿灯，东西红灯
-                    nsTime = timeLeft;          // 南北显示剩余绿灯时间
-                    ewTime = timeLeft + stateTimeTable[STATE_NS_YELLOW_EW_RED];  // 东西需要等待南北黄灯
-                    break;
-                    
-                case STATE_NS_YELLOW_EW_RED:    // 南北黄灯，东西红灯
-                    nsTime = timeLeft;          // 南北显示剩余黄灯时间
-                    ewTime = timeLeft;          // 东西红灯剩余时间等于南北黄灯时间
-                    break;
-                    
-                case STATE_NS_RED_EW_GREEN:     // 南北红灯，东西绿灯
-                    nsTime = timeLeft + stateTimeTable[STATE_NS_RED_EW_YELLOW];  // 南北需要等待东西黄灯
-                    ewTime = timeLeft;          // 东西显示剩余绿灯时间
-                    break;
-                    
-                case STATE_NS_RED_EW_YELLOW:    // 南北红灯，东西黄灯
-                    nsTime = timeLeft;          // 南北红灯剩余时间等于东西黄灯时间
-                    ewTime = timeLeft;          // 东西显示剩余黄灯时间
-                    break;
-                    
-                default:
-                    nsTime = 0;
-                    ewTime = 0;
-                    break;
-            }
-            
-            // 调用显示函数更新显示
-            Display_ShowTime(nsTime, ewTime);
+        // ==========================================
+        // 显示刷新处理（动态扫描）
+        // ==========================================
+        // 根据当前交通灯状态计算两个方向的剩余时间
+        
+        switch(currentState) {
+            case STATE_NS_GREEN_EW_RED:     // 南北绿灯，东西红灯
+                nsTime = timeLeft;          // 南北：显示绿灯剩余时间
+                ewTime = timeLeft + stateTimeTable[STATE_NS_YELLOW_EW_RED];  // 东西：需要等待黄灯时间
+                break;
+                
+            case STATE_NS_YELLOW_EW_RED:    // 南北黄灯，东西红灯
+                nsTime = timeLeft;          // 南北：显示黄灯剩余时间
+                ewTime = timeLeft;          // 东西：红灯剩余时间等于黄灯时间
+                break;
+                
+            case STATE_NS_RED_EW_GREEN:     // 南北红灯，东西绿灯
+                nsTime = timeLeft + stateTimeTable[STATE_NS_RED_EW_YELLOW];  // 南北：需要等待黄灯时间
+                ewTime = timeLeft;          // 东西：显示绿灯剩余时间
+                break;
+                
+            case STATE_NS_RED_EW_YELLOW:    // 南北红灯，东西黄灯
+                nsTime = timeLeft;          // 南北：红灯剩余时间等于黄灯时间
+                ewTime = timeLeft;          // 东西：显示黄灯剩余时间
+                break;
+                
+            default:
+                nsTime = 0;
+                ewTime = 0;
+                break;
         }
         
-        // 未来可以在这里添加：
-        // - 按键扫描
-        // - 通信处理
-        // - 故障检测
+        // 限制显示范围 (0-9)，因为只使用2个数码管
+        if (nsTime > 9) nsTime = 9;
+        if (ewTime > 9) ewTime = 9;
+        
+        // 调用显示函数更新显示（动态扫描）
+        Display_ShowTime(nsTime, ewTime);
+        
+        // ==========================================
+        // 未来扩展功能
+        // ==========================================
+        // - 按键扫描处理
+        // - 蓝牙通信处理
+        // - 故障检测与报警
+        // - 温度监控（DS18B20）
+        // - 红外遥控接收
     }
 }
